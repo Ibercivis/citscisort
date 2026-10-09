@@ -3,86 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Citizen Science Classification Platform{% endblock %}</title>
+    <meta name="color-scheme" content="light">
+    <title>{% block title %}CitSciSort{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* Palette mirrors the web app theme (react-code/src/App.jsx):
+           cream #FEFBF6, off-white #F9F5F2, near-black #171516,
+           teal #8BD6BE / primary #2A7A62, yellow #FFE08D / secondary #B8880A */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .email-container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .header {
-            text-align: center;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
-            margin-bottom: 30px;
-        }
-        .header h1 {
-            color: #2563eb;
             margin: 0;
-            font-size: 24px;
+            padding: 0;
+            background-color: #FEFBF6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #171516;
         }
-        .content {
-            color: #555;
+        h1, h2, h3 {
+            font-family: 'Manrope', 'Inter', -apple-system, 'Segoe UI', Arial, sans-serif;
+            color: #171516;
+            letter-spacing: -0.01em;
         }
+        h2 { font-size: 22px; font-weight: 800; margin: 0 0 16px; }
+        p { margin: 0 0 14px; }
+        a { color: #2A7A62; }
+        .content { color: #171516; font-size: 16px; }
         .button {
             display: inline-block;
-            padding: 12px 30px;
-            background-color: #2563eb;
+            padding: 13px 30px;
+            background-color: #2A7A62;
             color: #ffffff !important;
             text-decoration: none;
-            border-radius: 6px;
+            border-radius: 8px;
             margin: 20px 0;
-            font-weight: 600;
-        }
-        .button:hover {
-            background-color: #1d4ed8;
-        }
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-            color: #888;
-            font-size: 12px;
+            font-family: 'Manrope', 'Inter', Arial, sans-serif;
+            font-weight: 700;
+            font-size: 15px;
         }
         .info-box {
-            background-color: #f0f9ff;
-            border-left: 4px solid #2563eb;
-            padding: 15px;
+            background-color: #FFF4D1;
+            border-left: 4px solid #FFE08D;
+            padding: 14px 16px;
             margin: 20px 0;
-            border-radius: 4px;
+            border-radius: 6px;
+        }
+        .footer p { margin: 0 0 8px; }
+        @media only screen and (max-width: 620px) {
+            .card-pad { padding: 24px 20px !important; }
         }
     </style>
 </head>
-<body>
-    <div class="email-container">
-        <div class="header">
-            <h1>CitSciSort</h1>
-        </div>
-        
-        <div class="content">
-            {% block content %}{% endblock %}
-        </div>
-        
-        <div class="footer">
-            <p>
-                <strong>CitSciSort</strong><br>
-                Citizen Science Classification Platform
-            </p>
-            <p>
-                This is an automated email. Please do not reply to this message.
-            </p>
-        </div>
-    </div>
+<body style="margin:0;padding:0;background-color:#FEFBF6;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#FEFBF6;">
+        <tr>
+            <td align="center" style="padding:28px 12px;">
+                <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background-color:#F9F5F2;border:1px solid #E0D8D0;border-radius:14px;overflow:hidden;">
+                    <!-- brand stripe: yellow + teal, as in the logo/theme -->
+                    <tr>
+                        <td style="padding:0;font-size:0;line-height:0;">
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td width="50%" height="6" style="background-color:#FFE08D;font-size:0;line-height:0;">&nbsp;</td>
+                                    <td width="50%" height="6" style="background-color:#8BD6BE;font-size:0;line-height:0;">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding:28px 32px 18px;background-color:#ffffff;border-bottom:1px solid #E0D8D0;">
+                            <a href="https://citscisort.ibercivis.es" style="text-decoration:none;">
+                                <img src="https://citscisort-api.ibercivis.es/static/email/logo.png" alt="CitSciSort" width="200" style="display:block;border:0;width:200px;max-width:100%;height:auto;margin:0 auto;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="card-pad" style="padding:32px 36px;background-color:#ffffff;">
+                            <div class="content">
+                                {% block content %}{% endblock %}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="footer" align="center" style="padding:22px 32px;background-color:#F9F5F2;border-top:1px solid #E0D8D0;color:#5C5450;font-size:12px;line-height:1.5;">
+                            <p style="margin:0 0 8px;"><strong style="color:#171516;">CitSciSort</strong> &middot; Citizen Science Classification Platform</p>
+                            <p style="margin:0 0 8px;">A project of the <a href="https://ibercivis.es" style="color:#2A7A62;">Ibercivis Foundation</a></p>
+                            <p style="margin:0;">This is an automated email. Please do not reply to this message.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

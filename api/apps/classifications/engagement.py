@@ -23,6 +23,7 @@ and the management command both go through it.
 import logging
 from dataclasses import dataclass, field
 from datetime import timedelta
+from email import charset as email_charset
 
 from allauth.account.models import EmailAddress
 from django.conf import settings
@@ -339,6 +340,11 @@ def send_candidate(candidate, community=None):
         },
     )
     message.attach_alternative(html, 'text/html')
+    # django_ses serialises with as_string(), which crashes on 8bit-encoded
+    # non-ASCII bodies (accents, Cyrillic names). Quoted-printable is pure ASCII.
+    qp_utf8 = email_charset.Charset('utf-8')
+    qp_utf8.body_encoding = email_charset.QP
+    message.encoding = qp_utf8
 
     status, error = EngagementEmail.STATUS_SENT, ''
     try:

@@ -156,6 +156,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -225,7 +226,7 @@ ENGAGEMENT_EMAILS = {
     # Cap per daily run so switching this on (or a big sign-up wave) trickles
     # out over days instead of blasting everyone at once. Milestones go first,
     # then the most recently active people. None = no cap.
-    'MAX_PER_RUN': 25,
+    'MAX_PER_RUN': 100,
     # Classification counts that earn a congratulations email. Only the highest
     # milestone reached is sent, and only if the person classified recently
     # (MILESTONE_RECENCY_DAYS) so we never backfill stale milestones.
@@ -357,7 +358,7 @@ OLD_PASSWORD_FIELD_ENABLED = True
 LOGOUT_ON_PASSWORD_CHANGE = False
 
 # Email Configuration with Amazon SES
-EMAIL_BACKEND = config('EMAIL_BACKEND', default='django_ses.SESBackend')
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='config.email_backend.QuotedPrintableSESBackend')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@citscisort.com')
 
 # AWS SES Configuration

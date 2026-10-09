@@ -22,4 +22,4 @@ The CitSciSort team
 --
 You received this email because you have an account on {{ site_name }}.
 Stop receiving reminder and milestone emails: {{ unsubscribe_url }}
-Change your preferences: {{ frontend_url }}/account
+Change your preferences: https://citscisort.ibercivis.es/dashboard

@@ -1,3 +1,1 @@
 {% if user_classifications %}{{ first_name|default:"Hi" }}, {{ total_classifications }} abstracts classified so far. Will you help us reach the next milestone?{% else %}{{ first_name|default:"Hi" }}, your first classification on CitSciSort takes 2 minutes{% endif %}
-
-----

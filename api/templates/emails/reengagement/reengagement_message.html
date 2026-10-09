@@ -19,19 +19,19 @@
 {% endif %}
 
 <div class="info-box">
-    <h3 style="margin-top: 0; color: #2563eb;">Where we are right now</h3>
+    <h3 style="margin-top: 0; color: #2A7A62;">Where we are right now</h3>
     <table style="width: 100%; border-collapse: collapse;">
         <tr>
-            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2563eb; width: 90px;">{{ total_classifications }}</td>
-            <td style="padding: 6px 0; color: #555;">classifications completed</td>
+            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2A7A62; width: 90px;">{{ total_classifications }}</td>
+            <td style="padding: 6px 0; color: #5C5450;">classifications completed</td>
         </tr>
         <tr>
-            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2563eb;">{{ active_users }}</td>
-            <td style="padding: 6px 0; color: #555;">people contributing</td>
+            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2A7A62;">{{ active_users }}</td>
+            <td style="padding: 6px 0; color: #5C5450;">people contributing</td>
         </tr>
         <tr>
-            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2563eb;">{{ total_abstracts }}</td>
-            <td style="padding: 6px 0; color: #555;">scientific abstracts waiting to be sorted</td>
+            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2A7A62;">{{ total_abstracts }}</td>
+            <td style="padding: 6px 0; color: #5C5450;">scientific abstracts waiting to be sorted</td>
         </tr>
     </table>
 </div>
@@ -53,7 +53,7 @@
 
 {% if challenges_url %}
 <p style="text-align: center; color: #666; font-size: 14px;">
-    Prefer a goal? <a href="{{ challenges_url }}" style="color: #2563eb;">Join one of the open challenges</a>.
+    Prefer a goal? <a href="{{ challenges_url }}" style="color: #2A7A62;">Join one of the open challenges</a>.
 </p>
 {% endif %}
 
@@ -63,6 +63,6 @@
 <p style="color: #888; font-size: 12px; margin-top: 30px;">
     You received this email because you have an account on {{ site_name }}.
     <a href="{{ unsubscribe_url }}" style="color: #888;">Stop receiving reminder and milestone emails</a>
-    or <a href="{{ frontend_url }}/account" style="color: #888;">change your preferences</a>.
+    or <a href="https://citscisort.ibercivis.es/dashboard" style="color: #888;">change your preferences</a>.
 </p>
 {% endblock %}

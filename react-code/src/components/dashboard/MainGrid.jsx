@@ -80,9 +80,18 @@ const MainGrid = () => {
   const [editForm, setEditForm] = useState({
     first_name: '', last_name: '', country: '', institution: '', background: '',
     is_profile_public: false, wants_in_acknowledgments: false, wants_paper_collaboration: false,
+    activity_emails_opt_in: true, newsletter_opt_in: false,
   });
   const [saving, setSaving] = useState(false);
   const [editError, setEditError] = useState('');
+
+  // Newsletter consent prompt (explicit opt-in; "No, thanks" is remembered per browser)
+  const NEWSLETTER_DISMISSED_KEY = 'citscisort.newsletterPromptDismissed';
+  const [newsletterDismissed, setNewsletterDismissed] = useState(() => {
+    try { return localStorage.getItem(NEWSLETTER_DISMISSED_KEY) === '1'; } catch { return false; }
+  });
+  const [newsletterSaving, setNewsletterSaving] = useState(false);
+  const [newsletterError, setNewsletterError] = useState('');
 
   // Delete dialog
   const [openDelete, setOpenDelete] = useState(false);
@@ -114,6 +123,8 @@ const MainGrid = () => {
       is_profile_public: profile?.is_profile_public || false,
       wants_in_acknowledgments: profile?.wants_in_acknowledgments || false,
       wants_paper_collaboration: profile?.wants_paper_collaboration || false,
+      activity_emails_opt_in: profile?.activity_emails_opt_in ?? true,
+      newsletter_opt_in: profile?.newsletter_opt_in ?? false,
     });
     setEditError('');
     setOpenEdit(true);
@@ -136,6 +147,24 @@ const MainGrid = () => {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleNewsletterYes = async () => {
+    setNewsletterSaving(true);
+    setNewsletterError('');
+    try {
+      const updatedProfile = await profileService.updateProfile({ newsletter_opt_in: true });
+      setProfile(prev => ({ ...prev, ...updatedProfile, newsletter_opt_in: true }));
+    } catch (err) {
+      setNewsletterError(err.response?.data?.detail || 'Could not subscribe. Please try again.');
+    } finally {
+      setNewsletterSaving(false);
+    }
+  };
+
+  const handleNewsletterNo = () => {
+    try { localStorage.setItem(NEWSLETTER_DISMISSED_KEY, '1'); } catch { /* ignore */ }
+    setNewsletterDismissed(true);
   };
 
   const handleOpenDelete = () => {
@@ -269,6 +298,28 @@ const MainGrid = () => {
               Start Classifying
             </Button>
           </Paper>
+
+          {/* Newsletter consent prompt */}
+          {profile && !profile.newsletter_opt_in && !newsletterDismissed && (
+            <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'secondary.main' }}>
+              <Box display="flex" alignItems="center" gap={1} mb={0.5}>
+                <EmailIcon sx={{ fontSize: 18 }} color="secondary" />
+                <Typography variant="subtitle2" fontWeight="bold">Project newsletter?</Typography>
+              </Box>
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1.5 }}>
+                Would you like to receive occasional news about the project and its results? You can change this any time in Edit profile.
+              </Typography>
+              {newsletterError && <Alert severity="error" sx={{ mb: 1 }}>{newsletterError}</Alert>}
+              <Box display="flex" gap={1}>
+                <Button size="small" variant="contained" disabled={newsletterSaving} onClick={handleNewsletterYes}>
+                  Yes, subscribe me
+                </Button>
+                <Button size="small" disabled={newsletterSaving} onClick={handleNewsletterNo}>
+                  No, thanks
+                </Button>
+              </Box>
+            </Paper>
+          )}
 
           {/* KPIs */}
           <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
@@ -443,6 +494,39 @@ const MainGrid = () => {
               </Box>
             }
           />
+
+          <Divider sx={{ my: 2 }} />
+
+          <Typography variant="subtitle2" fontWeight="bold" gutterBottom>Emails</Typography>
+
+          {[
+            {
+              field: 'activity_emails_opt_in',
+              label: 'Reminder and milestone emails',
+              help: 'Occasional emails about your own activity: when you reach a milestone, or if you have been away for a while',
+            },
+            {
+              field: 'newsletter_opt_in',
+              label: 'Project newsletter',
+              help: 'News about the project and its results',
+            },
+          ].map(({ field, label, help }) => (
+            <FormControlLabel
+              key={field}
+              sx={{ display: 'flex' }}
+              control={
+                <Switch checked={editForm[field]}
+                  onChange={(e) => setEditForm(p => ({ ...p, [field]: e.target.checked }))}
+                  color="primary" />
+              }
+              label={
+                <Box>
+                  <Typography variant="body2" fontWeight="medium">{label}</Typography>
+                  <Typography variant="caption" color="text.secondary">{help}</Typography>
+                </Box>
+              }
+            />
+          ))}
 
           <Divider sx={{ my: 2 }} />
 
