@@ -1,0 +1,75 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Semantic colors</title>
+<link rel="stylesheet" href="_card.css">
+</head><body>
+<div class="card">
+  <p class="card-title">Colors</p>
+  <h2 class="card-heading">Semantic — success, warning, info, error</h2>
+
+  <div class="card-section">
+    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:14px">
+
+      <div>
+        <div class="swatch"><div class="swatch-bar" style="background:#2e7d32"></div><div class="swatch-meta"><span class="name">Success</span><span class="hex">#2e7d32</span></div></div>
+        <div class="row" style="margin-top:10px; grid-template-columns:1fr 1fr; gap:6px">
+          <div style="height:28px; background:#4caf50; border-radius:4px"></div>
+          <div style="height:28px; background:#1b5e20; border-radius:4px"></div>
+        </div>
+        <div class="label-mono" style="margin-top:6px">4caf50 · 1b5e20</div>
+      </div>
+
+      <div>
+        <div class="swatch"><div class="swatch-bar" style="background:#ed6c02"></div><div class="swatch-meta"><span class="name">Warning</span><span class="hex">#ed6c02</span></div></div>
+        <div class="row" style="margin-top:10px; grid-template-columns:1fr 1fr; gap:6px">
+          <div style="height:28px; background:#ff9800; border-radius:4px"></div>
+          <div style="height:28px; background:#e65100; border-radius:4px"></div>
+        </div>
+        <div class="label-mono" style="margin-top:6px">ff9800 · e65100</div>
+      </div>
+
+      <div>
+        <div class="swatch"><div class="swatch-bar" style="background:#0288d1"></div><div class="swatch-meta"><span class="name">Info</span><span class="hex">#0288d1</span></div></div>
+        <div class="row" style="margin-top:10px; grid-template-columns:1fr 1fr; gap:6px">
+          <div style="height:28px; background:#03a9f4; border-radius:4px"></div>
+          <div style="height:28px; background:#01579b; border-radius:4px"></div>
+        </div>
+        <div class="label-mono" style="margin-top:6px">03a9f4 · 01579b</div>
+      </div>
+
+      <div>
+        <div class="swatch"><div class="swatch-bar" style="background:#d32f2f"></div><div class="swatch-meta"><span class="name">Error</span><span class="hex">#d32f2f</span></div></div>
+        <div class="row" style="margin-top:10px; grid-template-columns:1fr 1fr; gap:6px">
+          <div style="height:28px; background:#ef5350; border-radius:4px"></div>
+          <div style="height:28px; background:#c62828; border-radius:4px"></div>
+        </div>
+        <div class="label-mono" style="margin-top:6px">ef5350 · c62828</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card-section">
+    <p class="card-title" style="margin-bottom:12px">Alert components</p>
+    <div style="display:grid; gap:10px">
+      <div style="display:flex; gap:12px; align-items:flex-start; padding:10px 14px; border-radius:6px; background:#edf7ed; color:#1e4620">
+        <span class="material-symbols-rounded" style="font-variation-settings: 'FILL' 1; color:#2e7d32">check_circle</span>
+        <div><div style="font:500 14px/1.4 var(--font-sans)">Classification submitted</div><div style="font:400 13px/1.5 var(--font-sans)">Thank you — your classification has been added to the corpus.</div></div>
+      </div>
+      <div style="display:flex; gap:12px; align-items:flex-start; padding:10px 14px; border-radius:6px; background:#fff4e5; color:#663c00">
+        <span class="material-symbols-rounded" style="font-variation-settings: 'FILL' 1; color:#ed6c02">warning</span>
+        <div><div style="font:500 14px/1.4 var(--font-sans)">Unsaved changes</div><div style="font:400 13px/1.5 var(--font-sans)">Leave the page to discard, or click Submit to save.</div></div>
+      </div>
+      <div style="display:flex; gap:12px; align-items:flex-start; padding:10px 14px; border-radius:6px; background:#e5f6fd; color:#014361">
+        <span class="material-symbols-rounded" style="font-variation-settings: 'FILL' 1; color:#0288d1">info</span>
+        <div><div style="font:500 14px/1.4 var(--font-sans)">Multiple selections are expected</div><div style="font:400 13px/1.5 var(--font-sans)">Pick every aspect that this abstract addresses.</div></div>
+      </div>
+      <div style="display:flex; gap:12px; align-items:flex-start; padding:10px 14px; border-radius:6px; background:#fdeded; color:#5f2120">
+        <span class="material-symbols-rounded" style="font-variation-settings: 'FILL' 1; color:#d32f2f">error</span>
+        <div><div style="font:500 14px/1.4 var(--font-sans)">Sign in failed</div><div style="font:400 13px/1.5 var(--font-sans)">We couldn't verify those credentials. Please try again.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0">
+</div>
+</body></html>

@@ -1,0 +1,79 @@
+/* Shared styles for preview cards */
+@import url('../colors_and_type.css');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--bg-default);
+}
+
+.card {
+  padding: 40px;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+.card-title {
+  font: 500 14px/1.57 var(--font-sans);
+  letter-spacing: 0.1px;
+  color: var(--fg-secondary);
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+
+.card-heading {
+  font: 500 24px/1.334 var(--font-sans);
+  color: var(--fg-primary);
+  margin: 0 0 28px;
+}
+
+.card-section {
+  margin-bottom: 32px;
+}
+
+.card-section:last-child {
+  margin-bottom: 0;
+}
+
+.swatch {
+  border-radius: 8px;
+  border: 1px solid var(--divider);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.swatch-bar {
+  height: 72px;
+  width: 100%;
+}
+
+.swatch-meta {
+  padding: 10px 12px;
+  font: 400 13px/1.5 var(--font-sans);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.swatch-meta .name {
+  font-weight: 500;
+  color: var(--fg-primary);
+}
+
+.swatch-meta .hex {
+  color: var(--fg-secondary);
+  font-family: var(--font-mono);
+}
+
+.row {
+  display: grid;
+  gap: 12px;
+}
+
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-secondary);
+}

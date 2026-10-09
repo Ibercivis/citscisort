@@ -1,0 +1,45 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Alerts</title>
+<link rel="stylesheet" href="_card.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0">
+<style>
+  .alert { display:flex; gap:12px; align-items:flex-start; padding:10px 16px; border-radius:4px; font:400 14px/1.5 'Roboto', sans-serif }
+  .alert .material-symbols-rounded { font-size:22px; font-variation-settings: 'FILL' 1; flex:0 0 auto; margin-top:1px }
+  .alert-title { font:500 16px/1.5 'Roboto', sans-serif }
+  .soft-success { background:#edf7ed; color:#1e4620 }
+  .soft-success .material-symbols-rounded { color:#2e7d32 }
+  .soft-warn { background:#fff4e5; color:#663c00 }
+  .soft-warn .material-symbols-rounded { color:#ed6c02 }
+  .soft-info { background:#e5f6fd; color:#014361 }
+  .soft-info .material-symbols-rounded { color:#0288d1 }
+  .soft-error { background:#fdeded; color:#5f2120 }
+  .soft-error .material-symbols-rounded { color:#d32f2f }
+  .out-error { background:#fff; color:#5f2120; border:1px solid #d32f2f }
+  .out-error .material-symbols-rounded { color:#d32f2f }
+  .row { margin-bottom:12px }
+  .cell-label { font:500 13px/1.4 'Roboto', sans-serif; color:var(--fg-secondary); margin:20px 0 8px }
+</style>
+</head><body>
+<div class="card">
+  <p class="card-title">Components</p>
+  <h2 class="card-heading">Alerts · inline messages</h2>
+
+  <div class="cell-label">Standard (soft)</div>
+  <div class="row"><div class="alert soft-success"><span class="material-symbols-rounded">check_circle</span><div><div class="alert-title">Classification submitted</div>Thank you — your contribution has been added to the corpus.</div></div></div>
+  <div class="row"><div class="alert soft-warn"><span class="material-symbols-rounded">warning</span><div><div class="alert-title">Unsaved changes</div>Leave the page to discard, or click Submit to save.</div></div></div>
+  <div class="row"><div class="alert soft-info"><span class="material-symbols-rounded">info</span><div><div class="alert-title">Multiple selections are expected</div>Pick every aspect that this abstract addresses.</div></div></div>
+  <div class="row"><div class="alert soft-error"><span class="material-symbols-rounded">error</span><div><div class="alert-title">Sign in failed</div>We couldn't verify those credentials. Please try again.</div></div></div>
+
+  <div class="cell-label">Outlined</div>
+  <div class="row"><div class="alert out-error"><span class="material-symbols-rounded">error</span><div>This abstract has already been classified by 2 other contributors.</div></div></div>
+
+  <div class="cell-label">Empty-state banner — "You're all caught up!"</div>
+  <div class="row">
+    <div style="border:1px dashed var(--divider); border-radius:8px; padding:24px; text-align:center; background:var(--bg-muted)">
+      <span class="material-symbols-rounded" style="font-size:40px; color:#1976d2; font-variation-settings: 'FILL' 1">mark_email_read</span>
+      <div style="font:500 18px/1.4 'Roboto', sans-serif; margin-top:8px">You're all caught up!</div>
+      <div style="font:400 14px/1.5 'Roboto', sans-serif; color:var(--fg-secondary); margin-top:4px">Come back tomorrow for new abstracts.</div>
+    </div>
+  </div>
+</div>
+</body></html>

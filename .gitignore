@@ -1,0 +1,20 @@
+# Deploy output (built by react-code/deploy.sh) — not source
+/frontend/
+
+# Archives, backups and leftovers at the project root
+/*.tar
+/*.tgz
+/node_modules.macos-bak/
+
+# Personal / non-code documents in react-code
+/react-code/Maite.pdf
+/react-code/citscisort_about.md
+/react-code/wordpress-post.*
+/react-code/Logo*.png
+
+# Secrets & junk everywhere (each subproject has its own, more specific, .gitignore)
+.env
+.env.*
+!.env.example
+._*
+.DS_Store

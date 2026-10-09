@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CitSci Sort — Web UI Kit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* Screen switching */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* Dashboard */
+  .welcome-tile { background: linear-gradient(150deg, #1976d2 0%, #1565c0 100%); color: #fff; border-radius: 12px; padding: 28px 32px; box-shadow: var(--shadow-2); }
+  .welcome-tile h2 { font: 700 28px/1.2 var(--font-sans); margin: 0 0 6px; }
+  .welcome-tile p { margin: 0; font: 400 15px/1.5 var(--font-sans); opacity: 0.92; max-width: 620px; }
+  .welcome-tile .cta { margin-top: 18px; }
+  .welcome-tile .cta .btn { background: #fff; color: #1976d2; box-shadow: none; }
+  .welcome-tile .cta .btn:hover { background: rgba(255,255,255,0.9); }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .kpi { background: #fff; border-radius: 10px; padding: 18px 20px; box-shadow: var(--shadow-2); }
+  .kpi .lab { font: 400 12px/2 var(--font-sans); text-transform: uppercase; letter-spacing: 1px; color: var(--fg-secondary); }
+  .kpi .val { font: 500 32px/1 var(--font-sans); color: var(--fg-primary); margin: 4px 0 2px; }
+  .kpi .delta { font: 400 12px/1.4 var(--font-sans); color: #2e7d32; }
+  .kpi .delta.neg { color: #d32f2f; }
+
+  .quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .quick { background: #fff; border: 1px solid var(--divider); border-radius: 10px; padding: 18px; display: flex; gap: 14px; align-items: flex-start; cursor: pointer; transition: all 0.15s; text-decoration: none; color: inherit; }
+  .quick:hover { border-color: rgba(0,0,0,0.26); box-shadow: inset 0 0 0 1px rgba(25,118,210,0.3); }
+  .quick .ic { width: 48px; height: 48px; border-radius: 10px; background: #1976d2; display: grid; place-items: center; flex: 0 0 auto; }
+  .quick .ic .material-symbols-rounded { color: #fff; font-size: 28px; font-variation-settings: 'FILL' 1; }
+  .quick .ic.sec { background: #dc004e; }
+  .quick .ic.tert { background: #0288d1; }
+  .quick h3 { font: 700 15px/1.35 var(--font-sans); margin: 0 0 4px; }
+  .quick p { font: 400 13px/1.5 var(--font-sans); color: var(--fg-secondary); margin: 0; }
+
+  .sec-title { display: flex; align-items: baseline; gap: 10px; margin: 32px 0 14px; }
+  .sec-title h3 { font: 700 18px/1.4 var(--font-sans); margin: 0; }
+  .sec-title .link { margin-left: auto; font: 500 13px/1.4 var(--font-sans); color: #1976d2; text-decoration: none; cursor: pointer; }
+  .sec-title .link:hover { text-decoration: underline; }
+
+  .activity-list { display: grid; gap: 1px; background: var(--divider); border: 1px solid var(--divider); border-radius: 10px; overflow: hidden; }
+  .activity-row { background: #fff; padding: 14px 18px; display: flex; gap: 14px; align-items: center; transition: background 0.15s; }
+  .activity-row:hover { background: rgba(0,0,0,0.03); }
+  .activity-row .avatar { width: 34px; height: 34px; border-radius: 9999px; background: #1976d2; color: #fff; display: grid; place-items: center; font: 500 13px/1 var(--font-sans); flex: 0 0 auto; }
+  .activity-row .avatar.v2 { background: #dc004e; }
+  .activity-row .avatar.v3 { background: #2e7d32; }
+  .activity-row .txt { flex: 1 1 auto; min-width: 0; }
+  .activity-row .txt .t { font: 400 14px/1.5 var(--font-sans); }
+  .activity-row .txt .t strong { font-weight: 500; }
+  .activity-row .txt .t a { color: #1976d2; text-decoration: none; cursor: pointer; }
+  .activity-row .time { font: 400 12px/1.4 var(--font-sans); color: var(--fg-secondary); flex: 0 0 auto; }
+
+  /* Classify */
+  .classify-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: calc(100vh - 56px - 48px); max-width: 1400px; margin: 0 auto; }
+  .classify-col { background: #fff; border-radius: 10px; padding: 24px; box-shadow: var(--shadow-3); overflow-y: auto; }
+  .classify-col h3 { font: 700 20px/1.3 var(--font-sans); margin: 0 0 4px; }
+  .classify-col .meta-row { display: flex; gap: 10px; align-items: center; font: 400 13px/1.5 var(--font-sans); color: var(--fg-secondary); margin-bottom: 16px; flex-wrap: wrap; }
+  .classify-col .meta-row .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--fg-secondary); }
+
+  .classify-block { margin-top: 20px; }
+  .classify-block .lbl { font: 400 12px/2 var(--font-sans); text-transform: uppercase; letter-spacing: 1px; color: var(--fg-secondary); margin-bottom: 2px; }
+  .classify-block .body { font: 400 15px/1.65 var(--font-sans); color: var(--fg-primary); }
+
+  .kw-list { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* Step cards */
+  .step-indicator { display: flex; align-items: center; gap: 4px; padding: 8px 0 18px; }
+  .step-pill { flex: 1 1 0; height: 4px; border-radius: 2px; background: var(--divider); transition: background 0.2s; }
+  .step-pill.done, .step-pill.active { background: #1976d2; }
+  .step-label { display: flex; justify-content: space-between; margin-top: 8px; font: 500 12px/1.4 var(--font-sans); color: var(--fg-secondary); }
+  .step-label span.active { color: #1976d2; }
+
+  .sc { display: flex; gap: 14px; padding: 14px; border-radius: 10px; background: #fff; border: 1px solid var(--divider); cursor: pointer; transition: all 0.15s; align-items: flex-start; margin-bottom: 10px; }
+  .sc .ic { flex: 0 0 auto; width: 40px; height: 40px; border-radius: 8px; background: var(--bg-subtle); display: grid; place-items: center; }
+  .sc .material-symbols-rounded { font-size: 22px; color: var(--fg-secondary); font-variation-settings: 'FILL' 1; }
+  .sc .title { font: 700 15px/1.4 var(--font-sans); color: var(--fg-primary); }
+  .sc .desc { font: 400 13px/1.5 var(--font-sans); color: var(--fg-secondary); margin-top: 2px; }
+  .sc:hover { border-color: rgba(0,0,0,0.26); background: rgba(0,0,0,0.03); }
+  .sc.sel { border: 2px solid #1976d2; background: rgba(25,118,210,0.08); padding: 13px; }
+  .sc.sel:hover { background: rgba(25,118,210,0.13); }
+  .sc.sel .ic { background: #1976d2; }
+  .sc.sel .material-symbols-rounded { color: #fff; }
+  .sc.sel .title { color: #1976d2; }
+  .sc .check { margin-left: auto; width: 22px; height: 22px; border-radius: 9999px; background: #1976d2; color: #fff; display: grid; place-items: center; font: 500 13px/1 var(--font-sans); flex: 0 0 auto; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .classify-nav { display: flex; gap: 10px; justify-content: space-between; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--divider); }
+
+  /* Debates */
+  .debate { background: #fff; border: 1px solid var(--divider); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; transition: border 0.15s; cursor: pointer; }
+  .debate:hover { border-color: rgba(0,0,0,0.26); }
+  .debate .h { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .debate .h .avatar { width: 30px; height: 30px; border-radius: 9999px; background: #1976d2; color: #fff; display: grid; place-items: center; font: 500 12px/1 var(--font-sans); }
+  .debate .h .who { font: 500 13px/1.4 var(--font-sans); }
+  .debate .h .when { font: 400 12px/1.4 var(--font-sans); color: var(--fg-secondary); }
+  .debate .t { font: 700 16px/1.4 var(--font-sans); margin-bottom: 6px; }
+  .debate .s { font: 400 13px/1.5 var(--font-sans); color: var(--fg-secondary); margin-bottom: 10px; }
+  .debate .foot { display: flex; gap: 14px; align-items: center; font: 400 13px/1.4 var(--font-sans); color: var(--fg-secondary); }
+  .debate .foot .stat { display: inline-flex; align-items: center; gap: 4px; }
+  .debate .foot .material-symbols-rounded { font-size: 18px; color: var(--fg-secondary); font-variation-settings: 'FILL' 0; }
+
+  /* Login */
+  .login-bg { min-height: 100vh; background: radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%)); display: grid; place-items: center; padding: 40px; }
+  .login-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; width: 100%; align-items: center; }
+  .login-hero h1 { font: 300 48px/1.15 var(--font-sans); letter-spacing: -0.5px; margin: 0 0 16px; color: var(--fg-primary); }
+  .login-hero h1 em { font-style: normal; color: #1976d2; font-weight: 400; }
+  .login-hero p { font: 400 17px/1.6 var(--font-sans); color: var(--fg-secondary); margin: 0 0 24px; max-width: 480px; }
+  .login-bullets { display: grid; gap: 12px; }
+  .login-bullets div { display: flex; gap: 12px; font: 400 14px/1.5 var(--font-sans); align-items: flex-start; }
+  .login-bullets .material-symbols-rounded { color: #1976d2; font-variation-settings: 'FILL' 1; flex: 0 0 auto; }
+  .login-card { background: #fff; border-radius: 12px; padding: 36px; box-shadow: var(--shadow-3); }
+  .login-card h2 { font: 700 22px/1.3 var(--font-sans); margin: 0 0 4px; }
+  .login-card p.sub { font: 400 14px/1.5 var(--font-sans); color: var(--fg-secondary); margin: 0 0 24px; }
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font: 500 13px/1.4 var(--font-sans); color: var(--fg-primary); margin-bottom: 6px; }
+  .field input { width: 100%; border: 1px solid rgba(0,0,0,0.23); border-radius: 4px; padding: 12px 14px; font: 400 15px/1.4 var(--font-sans); outline: none; }
+  .field input:focus { border-color: #1976d2; box-shadow: inset 0 0 0 1px #1976d2; }
+  .login-card .btn-primary { width: 100%; justify-content: center; padding: 10px; font-size: 15px; }
+  .login-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; }
+  .login-divider .line { flex: 1; height: 1px; background: var(--divider); }
+  .login-divider span { font: 400 12px/1.4 var(--font-sans); color: var(--fg-secondary); }
+  .google-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px; border: 1px solid rgba(0,0,0,0.23); border-radius: 4px; background: #fff; cursor: pointer; font: 500 14px/1.4 var(--font-sans); color: var(--fg-primary); }
+  .google-btn:hover { background: rgba(0,0,0,0.04); }
+  .google-g { width: 18px; height: 18px; }
+  .login-foot { text-align: center; margin-top: 18px; font: 400 13px/1.5 var(--font-sans); color: var(--fg-secondary); }
+  .login-foot a { color: #1976d2; text-decoration: none; }
+  .login-foot a:hover { text-decoration: underline; }
+
+  /* Stats */
+  .stats-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+  .treemap { border: 1px solid var(--divider); border-radius: 10px; background: #fff; padding: 20px; }
+  .tm-container { display: grid; grid-template-columns: 2fr 1.2fr 0.9fr; grid-template-rows: 2fr 1fr; gap: 3px; height: 320px; border-radius: 6px; overflow: hidden; }
+  .tm-cell { display: grid; place-items: center; font: 400 14px/1.3 var(--font-sans); text-align: center; padding: 6px; color: #fff; }
+  .tm-cell.sub { font-size: 12px; }
+
+  /* Mobile hamburger */
+  @media (max-width: 960px) {
+    .app { grid-template-columns: 1fr; }
+    .side { display: none; }
+    .classify-wrap { grid-template-columns: 1fr; height: auto; }
+    .stats-grid, .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .login-wrap { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Screen nav (toolbar for this demo) -->
+<div class="screen-nav">
+  <button data-goto="dashboard" class="active">Dashboard</button>
+  <button data-goto="classify">Classify</button>
+  <button data-goto="debates">Debates</button>
+  <button data-goto="stats">Stats</button>
+  <button data-goto="login">Login</button>
+</div>
+
+<!-- ============= LOGIN ============= -->
+<section class="screen" id="screen-login">
+  <div class="login-bg">
+    <div class="login-wrap">
+      <div class="login-hero">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px">
+          <div style="width:40px; height:40px; border-radius:10px; background:#1976d2; display:grid; place-items:center; color:#fff; font:700 16px/1 var(--font-sans)">C</div>
+          <div style="font:500 22px/1.2 var(--font-sans); color:#1976d2; letter-spacing:0.15px">CitSci Sort</div>
+        </div>
+        <h1>Classify the <em>citizen science</em> literature, one abstract at a time.</h1>
+        <p>CitSci Sort is a community-driven classification tool from the Ibercivis Foundation. Read a scientific abstract, assign it to a three-step taxonomy, and help build a research corpus on how citizen science is studied across disciplines.</p>
+        <div class="login-bullets">
+          <div><span class="material-symbols-rounded">menu_book</span><div><strong>Real abstracts, real research.</strong> Contributions feed a public, peer-reviewed dataset.</div></div>
+          <div><span class="material-symbols-rounded">groups</span><div><strong>Community-driven.</strong> Debate ambiguous abstracts with other classifiers.</div></div>
+          <div><span class="material-symbols-rounded">shield</span><div><strong>Your data is yours.</strong> Account-delete and export are one click.</div></div>
+        </div>
+      </div>
+      <div class="login-card">
+        <h2>Sign in to your account</h2>
+        <p class="sub">New here? <a style="color:#1976d2; text-decoration:none">Create an account</a></p>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" placeholder="you@institution.org">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" value="••••••••">
+        </div>
+        <button class="btn btn-primary">Sign in</button>
+        <div class="login-divider"><div class="line"></div><span>or</span><div class="line"></div></div>
+        <button class="google-btn">
+          <svg class="google-g" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          Continue with Google
+        </button>
+        <div class="login-foot"><a>Forgot your password?</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= APP SHELL SCREENS ============= -->
+<div class="app" id="app-shell">
+  <aside class="side" id="side">
+    <div class="side-brand">
+      <div class="mark">C</div>
+      <div class="name">CitSci Sort</div>
+    </div>
+    <nav class="side-nav">
+      <div class="side-nav-group-title">Main</div>
+      <div class="nav-item" data-goto="dashboard"><span class="material-symbols-rounded">dashboard</span><span class="label">Dashboard</span></div>
+      <div class="nav-item" data-goto="classify"><span class="material-symbols-rounded">assignment</span><span class="label">Classify</span><span class="badge">28</span></div>
+      <div class="nav-item" data-goto="debates"><span class="material-symbols-rounded">forum</span><span class="label">Debates</span></div>
+      <div class="nav-item" data-goto="stats"><span class="material-symbols-rounded">bar_chart</span><span class="label">Statistics</span></div>
+      <div class="nav-item"><span class="material-symbols-rounded">feed</span><span class="label">Activity</span></div>
+      <div class="side-nav-group-title">Personal</div>
+      <div class="nav-item"><span class="material-symbols-rounded">bookmark_border</span><span class="label">Saved abstracts</span></div>
+      <div class="nav-item"><span class="material-symbols-rounded">chat</span><span class="label">Followed debates</span></div>
+      <div class="nav-item"><span class="material-symbols-rounded">trending_up</span><span class="label">My stats</span></div>
+      <div class="side-nav-group-title">About</div>
+      <div class="nav-item"><span class="material-symbols-rounded">info</span><span class="label">About the project</span></div>
+    </nav>
+    <div class="side-foot">
+      <div class="user">
+        <div class="avatar">MT</div>
+        <div class="meta"><div class="n">María Torres</div><div class="e">m.torres@csic.es</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <button class="iconbtn" id="toggle-side" title="Collapse sidebar"><span class="material-symbols-rounded">menu</span></button>
+      <h1 id="page-title">Dashboard</h1>
+      <div class="spacer"></div>
+      <button class="iconbtn" title="Cobete mode"><span class="material-symbols-rounded">rocket_launch</span></button>
+      <button class="iconbtn" title="Notifications"><span class="material-symbols-rounded">notifications</span></button>
+      <div class="user" style="padding-right:0">
+        <div class="avatar">MT</div>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section class="screen active" id="screen-dashboard">
+      <div class="page">
+        <div class="welcome-tile">
+          <h2>Welcome back, María.</h2>
+          <p>You're on a <strong>14-day streak</strong>. 28 new abstracts are waiting to be classified, and 3 debates you're following have new replies.</p>
+          <div class="cta">
+            <button class="btn">Start classifying →</button>
+          </div>
+        </div>
+
+        <div class="sec-title"><h3>Your stats · last 30 days</h3></div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="lab">Classifications</div><div class="val">142</div><div class="delta">▲ +18 vs previous</div></div>
+          <div class="kpi"><div class="lab">Current streak</div><div class="val">14d</div><div class="delta">Best: 27 days</div></div>
+          <div class="kpi"><div class="lab">Agreement rate</div><div class="val">92%</div><div class="delta">Top 12% of contributors</div></div>
+          <div class="kpi"><div class="lab">Community rank</div><div class="val">#41</div><div class="delta neg">▼ −3 this week</div></div>
+        </div>
+
+        <div class="sec-title"><h3>Jump in</h3></div>
+        <div class="quick-grid">
+          <div class="quick" data-goto="classify">
+            <div class="ic"><span class="material-symbols-rounded">assignment</span></div>
+            <div><h3>Classify an abstract</h3><p>28 waiting for you · avg. ~3 min each</p></div>
+          </div>
+          <div class="quick" data-goto="debates">
+            <div class="ic sec"><span class="material-symbols-rounded">forum</span></div>
+            <div><h3>Join a debate</h3><p>3 followed debates have new replies</p></div>
+          </div>
+          <div class="quick">
+            <div class="ic tert"><span class="material-symbols-rounded">bookmark_border</span></div>
+            <div><h3>Saved abstracts</h3><p>7 abstracts held for later review</p></div>
+          </div>
+        </div>
+
+        <div class="sec-title">
+          <h3>Recent activity</h3>
+          <a class="link">View all →</a>
+        </div>
+        <div class="activity-list">
+          <div class="activity-row">
+            <div class="avatar">AG</div>
+            <div class="txt"><div class="t"><strong>Anna García</strong> classified <a>"Urban bird diversity and citizen-collected…"</a> as <strong>Scientific Findings</strong></div></div>
+            <div class="time">8 min ago</div>
+          </div>
+          <div class="activity-row">
+            <div class="avatar v2">JP</div>
+            <div class="txt"><div class="t"><strong>Jorge Pereira</strong> opened a debate: <a>"Is this a meta-research paper or a review?"</a></div></div>
+            <div class="time">42 min ago</div>
+          </div>
+          <div class="activity-row">
+            <div class="avatar v3">LK</div>
+            <div class="txt"><div class="t"><strong>Lise Kovacs</strong> replied in <a>"Data-quality protocols — where do crowdsourced…"</a></div></div>
+            <div class="time">1 h ago</div>
+          </div>
+          <div class="activity-row">
+            <div class="avatar">MT</div>
+            <div class="txt"><div class="t">You classified <a>"Mosquito-borne surveillance via mobile crowd…"</a> as <strong>Meta-research · Data Quality & Validation</strong></div></div>
+            <div class="time">3 h ago</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLASSIFY -->
+    <section class="screen" id="screen-classify">
+      <div class="page" style="padding:16px 24px">
+        <div class="classify-wrap">
+
+          <!-- Left: abstract -->
+          <div class="classify-col">
+            <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:8px">
+              <span class="overline">ABSTRACT · #4127</span>
+              <span style="font:400 12px/1.4 var(--font-sans); color:var(--fg-secondary)">2 / 28 today</span>
+            </div>
+            <h3>Urban bird diversity and citizen-collected occurrence records: patterns, biases, and opportunities</h3>
+
+            <div class="classify-block">
+              <div class="lbl">Authors</div>
+              <div class="body" style="font-size:14px">M. Haklay, A. Mazumdar, J. Wardlaw, P. Callaghan, L. Khan</div>
+            </div>
+
+            <div class="classify-block">
+              <div class="lbl">Source</div>
+              <div class="body" style="font-size:14px">Global Ecology and Conservation · 2024 · <a style="color:#1976d2">doi:10.1016/j.gecco.2024.e02891</a></div>
+            </div>
+
+            <div class="classify-block">
+              <div class="lbl">Keywords</div>
+              <div class="kw-list">
+                <span class="chip">citizen science</span>
+                <span class="chip">biodiversity</span>
+                <span class="chip">urban ecology</span>
+                <span class="chip">sampling bias</span>
+                <span class="chip">eBird</span>
+                <span class="chip">participatory monitoring</span>
+              </div>
+            </div>
+
+            <div class="classify-block">
+              <div class="lbl">Abstract</div>
+              <div class="body">Urban environments support a surprising diversity of bird species, yet systematic monitoring in cities remains patchy. We analysed 1.2&nbsp;million occurrence records contributed to citizen-science platforms across 38 European cities between 2018 and 2023 to examine species-richness patterns, spatial sampling biases, and the representativeness of recorded diversity relative to professional surveys.<br><br>Our results show that citizen-collected data recover 81% of species reported in concurrent professional atlases, but with substantial spatial bias toward green-space perimeters and residential areas with higher median income. We propose three low-effort platform changes — a weekly "gap square" prompt, an anonymised income-balanced sampling reward, and inline training on under-reported taxa — that in a pilot study reduced spatial bias by 34%. We discuss implications for data-quality frameworks and for urban-planning applications that increasingly rely on volunteered biodiversity data.</div>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:20px; padding-top:16px; border-top:1px solid var(--divider)">
+              <button class="btn btn-text"><span class="material-symbols-rounded">bookmark_border</span>Save for later</button>
+              <button class="btn btn-text"><span class="material-symbols-rounded">forum</span>Start a debate</button>
+              <button class="btn btn-text"><span class="material-symbols-rounded">open_in_new</span>Open source</button>
+            </div>
+          </div>
+
+          <!-- Right: form -->
+          <div class="classify-col">
+            <div class="step-indicator">
+              <div class="step-pill done"></div>
+              <div class="step-pill active"></div>
+              <div class="step-pill"></div>
+              <div class="step-pill"></div>
+            </div>
+            <div class="step-label">
+              <span>✓ Main category</span>
+              <span class="active">Meta-research aspects</span>
+              <span>Platforms</span>
+              <span>Review & submit</span>
+            </div>
+
+            <h3 style="margin-top:20px">Which meta-research aspects does this abstract address?</h3>
+            <p style="font:400 14px/1.5 var(--font-sans); color:var(--fg-secondary); margin:0 0 18px">
+              Select all that apply — multiple selections are expected.
+            </p>
+
+            <div class="grid-2">
+              <div class="sc sel"><div class="ic"><span class="material-symbols-rounded">account_tree</span></div><div><div class="title">Methodology & Design</div><div class="desc" style="color:#1976d2">Study design, sampling, experimental setup</div></div><div class="check">✓</div></div>
+              <div class="sc sel"><div class="ic"><span class="material-symbols-rounded">fact_check</span></div><div><div class="title">Data Quality & Validation</div><div class="desc" style="color:#1976d2">Accuracy, bias, validation protocols</div></div><div class="check">✓</div></div>
+              <div class="sc"><div class="ic"><span class="material-symbols-rounded">trending_up</span></div><div><div class="title">Impact & Outcomes</div><div class="desc">Scientific, social, policy impact</div></div></div>
+              <div class="sc sel"><div class="ic"><span class="material-symbols-rounded">groups</span></div><div><div class="title">Participation & Engagement</div><div class="desc" style="color:#1976d2">Volunteer motivation, retention</div></div><div class="check">✓</div></div>
+              <div class="sc"><div class="ic"><span class="material-symbols-rounded">gavel</span></div><div><div class="title">Ethics & Legal</div><div class="desc">Consent, privacy, RRI</div></div></div>
+              <div class="sc"><div class="ic"><span class="material-symbols-rounded">menu_book</span></div><div><div class="title">Theory & Framework</div><div class="desc">Conceptual contributions</div></div></div>
+              <div class="sc" style="grid-column: span 2"><div class="ic"><span class="material-symbols-rounded">smart_toy</span></div><div><div class="title">Technology & Platforms</div><div class="desc">Tools, apps, ML, digital infrastructure</div></div></div>
+            </div>
+
+            <div class="classify-nav">
+              <button class="btn btn-text"><span class="material-symbols-rounded">chevron_left</span>Back</button>
+              <div style="display:flex; gap:10px">
+                <button class="btn btn-outlined">Skip — not sure</button>
+                <button class="btn btn-primary">Next <span class="material-symbols-rounded">chevron_right</span></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- DEBATES -->
+    <section class="screen" id="screen-debates">
+      <div class="page">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px">
+          <div>
+            <h2 style="font:700 22px/1.3 var(--font-sans); margin:0">Community debates</h2>
+            <p style="font:400 14px/1.5 var(--font-sans); color:var(--fg-secondary); margin:4px 0 0; max-width:700px">
+              Threaded discussions about individual abstracts where classification is ambiguous. Anyone can start a debate; everyone can reply.
+            </p>
+          </div>
+          <div style="margin-left:auto; display:flex; gap:10px">
+            <button class="btn btn-outlined"><span class="material-symbols-rounded">filter_list</span>Filter</button>
+            <button class="btn btn-primary"><span class="material-symbols-rounded">add</span>Start a debate</button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-bottom:16px">
+          <span class="chip chip-primary">All · 127</span>
+          <span class="chip">Following · 3</span>
+          <span class="chip">Your debates · 8</span>
+          <span class="chip">Unresolved · 42</span>
+        </div>
+
+        <div class="debate">
+          <div class="h">
+            <div class="avatar">JP</div>
+            <div class="who">Jorge Pereira</div>
+            <div class="when">· 42 min ago · on abstract #4119</div>
+            <span class="chip chip-success" style="margin-left:auto">12 replies</span>
+          </div>
+          <div class="t">Is this a meta-research paper, or a regular review?</div>
+          <div class="s">"The authors synthesise 87 CS studies on water quality, but introduce a novel classification framework in the last section. I'm torn between <strong>Meta-research · Theory & Framework</strong> and simply flagging it as a review outside our taxonomy."</div>
+          <div class="foot">
+            <span class="stat"><span class="material-symbols-rounded">forum</span>12</span>
+            <span class="stat"><span class="material-symbols-rounded">favorite</span>8</span>
+            <span class="stat"><span class="material-symbols-rounded">visibility</span>34 viewers</span>
+            <span style="margin-left:auto"><a style="color:#1976d2; cursor:pointer">Join the debate →</a></span>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="h">
+            <div class="avatar" style="background:#dc004e">LK</div>
+            <div class="who">Lise Kovacs</div>
+            <div class="when">· 2 h ago · on abstract #4103</div>
+            <span class="chip" style="margin-left:auto">4 replies · you replied</span>
+          </div>
+          <div class="t">Data-quality protocols — where do crowdsourced validation rounds fit?</div>
+          <div class="s">"The paper describes a three-tier validation: self-review, peer-review, expert-review. I tagged Data Quality & Validation, but is Technology & Platforms also warranted here? Discussion welcome."</div>
+          <div class="foot">
+            <span class="stat"><span class="material-symbols-rounded">forum</span>4</span>
+            <span class="stat"><span class="material-symbols-rounded">favorite</span>3</span>
+            <span class="stat"><span class="material-symbols-rounded">visibility</span>18</span>
+            <span style="margin-left:auto"><a style="color:#1976d2; cursor:pointer">Continue the debate →</a></span>
+          </div>
+        </div>
+
+        <div class="debate">
+          <div class="h">
+            <div class="avatar" style="background:#2e7d32">AG</div>
+            <div class="who">Anna García</div>
+            <div class="when">· 5 h ago · on abstract #4091</div>
+            <span class="chip" style="margin-left:auto">2 replies</span>
+          </div>
+          <div class="t">Abstract mentions both findings and methodological critique — primary intent?</div>
+          <div class="s">"A clear results-reporting paper in sections 1–3, then sections 4–5 critique the sampling method used and propose an alternative. The abstract reflects both. Classifying as Scientific Findings feels incomplete."</div>
+          <div class="foot">
+            <span class="stat"><span class="material-symbols-rounded">forum</span>2</span>
+            <span class="stat"><span class="material-symbols-rounded">favorite</span>1</span>
+            <span class="stat"><span class="material-symbols-rounded">visibility</span>9</span>
+            <span style="margin-left:auto"><a style="color:#1976d2; cursor:pointer">Join the debate →</a></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="screen" id="screen-stats">
+      <div class="page">
+        <h2 style="font:700 22px/1.3 var(--font-sans); margin:0 0 4px">Project statistics</h2>
+        <p style="font:400 14px/1.5 var(--font-sans); color:var(--fg-secondary); margin:0 0 20px">
+          All classifications contributed to the CitSci Sort corpus, updated hourly.
+        </p>
+
+        <div class="kpi-grid" style="margin-bottom:24px">
+          <div class="kpi"><div class="lab">Abstracts in corpus</div><div class="val">12,408</div><div class="delta">▲ +127 today</div></div>
+          <div class="kpi"><div class="lab">Classifications</div><div class="val">48,291</div><div class="delta">avg. 3.9 per abstract</div></div>
+          <div class="kpi"><div class="lab">Active contributors</div><div class="val">387</div><div class="delta">past 30 days</div></div>
+          <div class="kpi"><div class="lab">Inter-rater agreement</div><div class="val">87%</div><div class="delta">Cohen's κ = 0.74</div></div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="treemap">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px">
+              <h3 style="font:700 16px/1.4 var(--font-sans); margin:0">Top keywords across the corpus</h3>
+              <span class="overline">Top 50 · size = count</span>
+            </div>
+            <div class="tm-container">
+              <div class="tm-cell" style="background:#0d47a1; grid-row: 1 / 3">biodiversity<br><span style="font-size:11px; opacity:0.8">1,284</span></div>
+              <div class="tm-cell" style="background:#1565c0">data quality<br><span class="sub" style="font-size:11px">912</span></div>
+              <div class="tm-cell" style="background:#1976d2; grid-row: 1 / 3">participatory<br>monitoring<br><span style="font-size:11px; opacity:0.8">768</span></div>
+              <div class="tm-cell" style="background:#1e88e5">ebird<br><span style="font-size:11px">541</span></div>
+            </div>
+            <div class="tm-container" style="grid-template-columns: 1fr 1fr 1fr 1fr; grid-template-rows: 1fr; height: 100px; margin-top:3px">
+              <div class="tm-cell" style="background:#2196f3">urban ecology</div>
+              <div class="tm-cell" style="background:#2196f3">validation</div>
+              <div class="tm-cell" style="background:#42a5f5">sampling bias</div>
+              <div class="tm-cell" style="background:#42a5f5">engagement</div>
+            </div>
+          </div>
+
+          <div class="paper">
+            <h3 style="font:700 16px/1.4 var(--font-sans); margin:0 0 14px">Category distribution</h3>
+            <div style="display:grid; gap:14px">
+              <div>
+                <div style="display:flex; justify-content:space-between; font:500 13px/1.4 var(--font-sans); margin-bottom:4px"><span>Scientific Findings</span><span>58%</span></div>
+                <div style="height:8px; border-radius:4px; background:var(--bg-subtle); overflow:hidden"><div style="width:58%; height:100%; background:#1976d2"></div></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; font:500 13px/1.4 var(--font-sans); margin-bottom:4px"><span>Meta-research</span><span>34%</span></div>
+                <div style="height:8px; border-radius:4px; background:var(--bg-subtle); overflow:hidden"><div style="width:34%; height:100%; background:#1976d2"></div></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; font:500 13px/1.4 var(--font-sans); margin-bottom:4px"><span>Not Sure</span><span>8%</span></div>
+                <div style="height:8px; border-radius:4px; background:var(--bg-subtle); overflow:hidden"><div style="width:8%; height:100%; background:#1976d2"></div></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <h4 style="font:700 14px/1.4 var(--font-sans); margin:0 0 10px; color:var(--fg-secondary); text-transform:uppercase; letter-spacing:0.5px">Top meta-research aspects</h4>
+            <div style="display:grid; gap:8px; font:400 13px/1.5 var(--font-sans)">
+              <div style="display:flex; justify-content:space-between"><span>Participation & Engagement</span><span style="color:var(--fg-secondary)">1,247</span></div>
+              <div style="display:flex; justify-content:space-between"><span>Data Quality & Validation</span><span style="color:var(--fg-secondary)">1,089</span></div>
+              <div style="display:flex; justify-content:space-between"><span>Methodology & Design</span><span style="color:var(--fg-secondary)">891</span></div>
+              <div style="display:flex; justify-content:space-between"><span>Impact & Outcomes</span><span style="color:var(--fg-secondary)">624</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  // Screen switching
+  const screens = {
+    dashboard: { title: 'Dashboard', shellVisible: true },
+    classify:  { title: 'Classify',  shellVisible: true },
+    debates:   { title: 'Debates',   shellVisible: true },
+    stats:     { title: 'Statistics', shellVisible: true },
+    login:     { title: 'Login',     shellVisible: false }
+  };
+  const shell = document.getElementById('app-shell');
+  const pageTitle = document.getElementById('page-title');
+
+  function go(name) {
+    // update screens
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById('screen-' + name);
+    if (el) el.classList.add('active');
+    // shell visibility
+    shell.style.display = screens[name].shellVisible ? '' : 'none';
+    // sidebar active
+    document.querySelectorAll('.side .nav-item').forEach(n => n.classList.toggle('active', n.dataset.goto === name));
+    // topbar title
+    pageTitle.textContent = screens[name].title;
+    // screen-nav toolbar
+    document.querySelectorAll('.screen-nav button').forEach(b => b.classList.toggle('active', b.dataset.goto === name));
+    // restore
+    localStorage.setItem('citsci-kit-screen', name);
+  }
+
+  document.addEventListener('click', e => {
+    const t = e.target.closest('[data-goto]');
+    if (t) { go(t.dataset.goto); }
+  });
+
+  // Sidebar collapse
+  document.getElementById('toggle-side').addEventListener('click', () => {
+    shell.classList.toggle('collapsed');
+  });
+
+  // Select-card toggle (classify step 2)
+  document.querySelectorAll('#screen-classify .sc').forEach(c => {
+    c.addEventListener('click', () => {
+      c.classList.toggle('sel');
+      if (c.classList.contains('sel') && !c.querySelector('.check')) {
+        const ck = document.createElement('div'); ck.className = 'check'; ck.textContent = '✓'; c.appendChild(ck);
+      } else if (!c.classList.contains('sel')) {
+        const ck = c.querySelector('.check'); if (ck) ck.remove();
+      }
+    });
+  });
+
+  // Restore last screen
+  const last = localStorage.getItem('citsci-kit-screen') || 'dashboard';
+  go(last);
+</script>
+
+</body>
+</html>

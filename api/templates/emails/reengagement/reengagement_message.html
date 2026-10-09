@@ -1,0 +1,68 @@
+{% extends "emails/base_email.html" %}
+
+{% block title %}{% if user_classifications %}Help us reach the next milestone{% else %}Your first classification takes 2 minutes{% endif %}{% endblock %}
+
+{% block content %}
+<h2>Hello{% if first_name %} {{ first_name }}{% endif %}!</h2>
+
+{% if user_classifications %}
+<p>
+    Thank you for the <strong>{{ user_classifications }} abstract{{ user_classifications|pluralize }}</strong>
+    you have already classified on <strong>CitSciSort</strong>. Your contribution is part of the
+    work of a growing community.
+</p>
+{% else %}
+<p>
+    You signed up for <strong>CitSciSort</strong> a while ago but have not classified any
+    abstract yet. We would love to have you on board.
+</p>
+{% endif %}
+
+<div class="info-box">
+    <h3 style="margin-top: 0; color: #2563eb;">Where we are right now</h3>
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2563eb; width: 90px;">{{ total_classifications }}</td>
+            <td style="padding: 6px 0; color: #555;">classifications completed</td>
+        </tr>
+        <tr>
+            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2563eb;">{{ active_users }}</td>
+            <td style="padding: 6px 0; color: #555;">people contributing</td>
+        </tr>
+        <tr>
+            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2563eb;">{{ total_abstracts }}</td>
+            <td style="padding: 6px 0; color: #555;">scientific abstracts waiting to be sorted</td>
+        </tr>
+    </table>
+</div>
+
+<p>
+    <strong>What is CitSciSort?</strong> We are reading the scientific literature about citizen
+    science and sorting it: is each paper reporting scientific findings, or is it research
+    <em>about</em> citizen science itself (its methods, participants, data quality, impact...)?
+    Every classification you make helps build the first map of this field.
+</p>
+
+<p>
+    Each abstract takes about <strong>two minutes</strong>. You can do one or twenty, whenever you want.
+</p>
+
+<div style="text-align: center;">
+    <a href="{{ frontend_url }}/classify" class="button">Start classifying</a>
+</div>
+
+{% if challenges_url %}
+<p style="text-align: center; color: #666; font-size: 14px;">
+    Prefer a goal? <a href="{{ challenges_url }}" style="color: #2563eb;">Join one of the open challenges</a>.
+</p>
+{% endif %}
+
+<p>Thank you for being part of this.</p>
+<p>The CitSciSort team</p>
+
+<p style="color: #888; font-size: 12px; margin-top: 30px;">
+    You received this email because you have an account on {{ site_name }}.
+    <a href="{{ unsubscribe_url }}" style="color: #888;">Stop receiving reminder and milestone emails</a>
+    or <a href="{{ frontend_url }}/account" style="color: #888;">change your preferences</a>.
+</p>
+{% endblock %}

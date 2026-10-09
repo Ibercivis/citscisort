@@ -1,0 +1,159 @@
+/* ============================================================
+   CitSci Sort — Colors & Type
+   ------------------------------------------------------------
+   Based on Material UI defaults used throughout the codebase:
+     - primary: #1976d2 (blue 700)
+     - secondary: #dc004e (pink A400, a.k.a. "crimson")
+     - Typography: Roboto 300/400/500/700
+   The CS domain is academic/scholarly — neutral surfaces, clear
+   hierarchy, calm tone. Vibrance comes from the blue primary,
+   with a crimson accent reserved for the "second canon" (RRI)
+   and danger states.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+  /* ------- Primary (MUI blue 700) ------- */
+  --primary-50:  #e3f2fd;
+  --primary-100: #bbdefb;
+  --primary-200: #90caf9;
+  --primary-300: #64b5f6;
+  --primary-400: #42a5f5;
+  --primary-500: #2196f3;
+  --primary-600: #1e88e5;
+  --primary-700: #1976d2;   /* primary.main */
+  --primary-800: #1565c0;   /* primary.dark */
+  --primary-900: #0d47a1;
+  --primary:          var(--primary-700);
+  --primary-dark:     var(--primary-800);
+  --primary-light:    var(--primary-400);
+  --primary-contrast: #ffffff;
+
+  /* ------- Secondary (MUI crimson) ------- */
+  --secondary-50:  #fce4ec;
+  --secondary-100: #f8bbd0;
+  --secondary-300: #f06292;
+  --secondary-400: #ec407a;
+  --secondary-500: #dc004e;     /* secondary.main */
+  --secondary-700: #c2185b;     /* secondary.dark */
+  --secondary:          var(--secondary-500);
+  --secondary-dark:     var(--secondary-700);
+  --secondary-light:    #ff5c8d;
+  --secondary-contrast: #ffffff;
+
+  /* ------- Semantic (MUI defaults) ------- */
+  --success:         #2e7d32;
+  --success-light:   #4caf50;
+  --success-dark:    #1b5e20;
+  --warning:         #ed6c02;
+  --warning-light:   #ff9800;
+  --warning-dark:    #e65100;
+  --info:            #0288d1;
+  --info-light:      #03a9f4;
+  --info-dark:       #01579b;
+  --error:           #d32f2f;
+  --error-light:     #ef5350;
+  --error-dark:      #c62828;
+
+  /* ------- Neutrals / greys ------- */
+  --grey-50:  #fafafa;
+  --grey-100: #f5f5f5;
+  --grey-200: #eeeeee;
+  --grey-300: #e0e0e0;
+  --grey-400: #bdbdbd;
+  --grey-500: #9e9e9e;
+  --grey-600: #757575;
+  --grey-700: #616161;
+  --grey-800: #424242;
+  --grey-900: #212121;
+
+  /* ------- Surfaces & text ------- */
+  --bg-default:   #ffffff;
+  --bg-paper:     #ffffff;
+  --bg-muted:     var(--grey-50);          /* review / summary blocks */
+  --bg-subtle:    var(--grey-100);         /* hover, table header */
+  --divider:      rgba(0, 0, 0, 0.12);
+
+  --fg-primary:   rgba(0, 0, 0, 0.87);
+  --fg-secondary: rgba(0, 0, 0, 0.6);
+  --fg-disabled:  rgba(0, 0, 0, 0.38);
+  --fg-on-primary: #ffffff;
+
+  /* Alpha overlays (used extensively in the app) */
+  --primary-alpha-08: rgba(25, 118, 210, 0.08);   /* selected card */
+  --primary-alpha-13: rgba(25, 118, 210, 0.13);   /* selected hover */
+  --hover-overlay:    rgba(0, 0, 0, 0.04);         /* generic hover */
+
+  /* ------- Elevation (MUI shadows 1 / 2 / 3) ------- */
+  --shadow-1: 0 2px 1px -1px rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12);
+  --shadow-2: 0 3px 1px -2px rgba(0,0,0,0.2), 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12);
+  --shadow-3: 0 3px 3px -2px rgba(0,0,0,0.2), 0 3px 4px 0 rgba(0,0,0,0.14), 0 1px 8px 0 rgba(0,0,0,0.12);
+  --shadow-focus: 0 0 0 3px rgba(25, 118, 210, 0.25);
+
+  /* ------- Radii ------- */
+  --radius-sm: 4px;     /* default MUI shape */
+  --radius-md: 8px;     /* cards w/ borderRadius: 2 */
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+
+  /* ------- Spacing (MUI spacing = 8) ------- */
+  --space-0-5: 4px;
+  --space-1:   8px;
+  --space-1-5: 12px;
+  --space-2:   16px;
+  --space-3:   24px;
+  --space-4:   32px;
+  --space-5:   40px;
+  --space-6:   48px;
+
+  /* ------- Typography ------- */
+  --font-sans: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Scale mirrors MUI: h1..h6, subtitle1/2, body1/2, caption, overline */
+  --text-h1:        300 96px/1.167 var(--font-sans);   /* -1.5px tracking */
+  --text-h2:        300 60px/1.2   var(--font-sans);   /* -0.5px */
+  --text-h3:        400 48px/1.167 var(--font-sans);
+  --text-h4:        400 34px/1.235 var(--font-sans);   /* 0.25px */
+  --text-h5:        400 24px/1.334 var(--font-sans);
+  --text-h6:        500 20px/1.6   var(--font-sans);   /* 0.15px */
+  --text-subtitle1: 400 16px/1.75  var(--font-sans);   /* 0.15px */
+  --text-subtitle2: 500 14px/1.57  var(--font-sans);
+  --text-body1:     400 16px/1.5   var(--font-sans);
+  --text-body2:     400 14px/1.43  var(--font-sans);
+  --text-button:    500 14px/1.75  var(--font-sans);   /* UPPERCASE 0.4px */
+  --text-caption:   400 12px/1.66  var(--font-sans);
+  --text-overline:  400 12px/2.66  var(--font-sans);   /* UPPERCASE 1px */
+}
+
+/* ------------------------------------------------------------
+   Base element bindings — match MUI CssBaseline
+   ------------------------------------------------------------ */
+html, body {
+  font-family: var(--font-sans);
+  color: var(--fg-primary);
+  background: var(--bg-default);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 { font: var(--text-h1); letter-spacing: -1.5px; margin: 0 0 var(--space-3); }
+h2 { font: var(--text-h2); letter-spacing: -0.5px; margin: 0 0 var(--space-3); }
+h3 { font: var(--text-h3); margin: 0 0 var(--space-2); }
+h4 { font: var(--text-h4); letter-spacing: 0.25px; margin: 0 0 var(--space-2); }
+h5 { font: var(--text-h5); margin: 0 0 var(--space-1-5); }
+h6 { font: var(--text-h6); letter-spacing: 0.15px; margin: 0 0 var(--space-1); }
+p  { font: var(--text-body1); margin: 0 0 var(--space-2); }
+
+small, .caption { font: var(--text-caption); color: var(--fg-secondary); }
+.overline { font: var(--text-overline); text-transform: uppercase; letter-spacing: 1px; color: var(--fg-secondary); }
+.subtitle2 { font: var(--text-subtitle2); }
+code, pre { font-family: var(--font-mono); font-size: 0.875em; }
+
+a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a:hover { text-decoration: underline; color: var(--primary-dark); }

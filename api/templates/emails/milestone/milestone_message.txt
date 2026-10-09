@@ -1,0 +1,25 @@
+Hello{% if first_name %} {{ first_name }}{% endif %}!
+
+You have now classified {{ user_classifications }} abstract{{ user_classifications|pluralize }} on CitSciSort, passing the {{ milestone }} mark. Thank you.
+
+{% if milestone >= 250 %}You are one of the backbone contributors of this project. Few people get this far, and every one of your classifications is a data point in the first map of the citizen science literature.{% elif milestone >= 100 %}A hundred-plus abstracts read and sorted with care. That is a serious contribution to a research dataset.{% elif milestone >= 50 %}Fifty abstracts is real territory: you have seen enough of the literature to spot the patterns yourself.{% elif milestone >= 25 %}Twenty-five abstracts in. You are now well past the point where most people stop.{% else %}Ten abstracts done. You know how this works now, and every next one is faster.{% endif %}
+
+Where the community is:
+- {{ total_classifications }} classifications completed
+- {{ active_users }} people contributing
+- {{ total_abstracts }} abstracts still waiting to be sorted
+
+Keep going:
+{{ frontend_url }}/classify
+
+{% if challenges_url %}Want a focused goal? Pick a challenge:
+{{ challenges_url }}
+{% endif %}
+Thank you for being part of this.
+
+The CitSciSort team
+
+--
+You received this email because you have an account on {{ site_name }}.
+Stop receiving reminder and milestone emails: {{ unsubscribe_url }}
+Change your preferences: {{ frontend_url }}/account

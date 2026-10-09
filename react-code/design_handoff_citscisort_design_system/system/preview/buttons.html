@@ -1,0 +1,85 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Buttons</title>
+<link rel="stylesheet" href="_card.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0">
+<style>
+  .btn {
+    font: 500 14px/1.75 'Roboto', sans-serif;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    border-radius:4px;
+    border:1px solid transparent;
+    padding:6px 16px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn .material-symbols-rounded { font-size:20px; font-variation-settings: 'FILL' 1 }
+  .btn-contained { background:#1976d2; color:#fff; box-shadow:var(--shadow-2) }
+  .btn-contained:hover { background:#1565c0 }
+  .btn-outlined { background:#fff; color:#1976d2; border-color:rgba(25,118,210,0.5) }
+  .btn-outlined:hover { background:rgba(25,118,210,0.04); border-color:#1976d2 }
+  .btn-text { background:transparent; color:#1976d2 }
+  .btn-text:hover { background:rgba(25,118,210,0.04) }
+  .btn-sec { background:#dc004e; color:#fff; box-shadow:var(--shadow-2) }
+  .btn-sec:hover { background:#c2185b }
+  .btn-disabled { background:rgba(0,0,0,0.12); color:rgba(0,0,0,0.26); cursor:default; box-shadow:none }
+  .btn-sm { padding:4px 10px; font-size:13px }
+  .btn-lg { padding:8px 22px; font-size:15px }
+  .cell { border:1px solid var(--divider); border-radius:8px; padding:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+  .cell-label { font:500 13px/1.4 'Roboto', sans-serif; color:var(--fg-secondary); margin-bottom:10px }
+</style>
+</head><body>
+<div class="card">
+  <p class="card-title">Components</p>
+  <h2 class="card-heading">Buttons</h2>
+
+  <div class="card-section">
+    <div class="cell-label">Contained · primary (default CTA)</div>
+    <div class="cell">
+      <button class="btn btn-contained btn-sm">Sign in</button>
+      <button class="btn btn-contained">Start classifying</button>
+      <button class="btn btn-contained btn-lg">Submit classification</button>
+      <button class="btn btn-contained"><span class="material-symbols-rounded">check</span>Submit</button>
+      <button class="btn btn-disabled">Disabled</button>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="cell-label">Outlined · primary (secondary actions)</div>
+    <div class="cell">
+      <button class="btn btn-outlined btn-sm">Cancel</button>
+      <button class="btn btn-outlined">Save draft</button>
+      <button class="btn btn-outlined"><span class="material-symbols-rounded">open_in_new</span>Open in new</button>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="cell-label">Text (tertiary, in-dense contexts)</div>
+    <div class="cell">
+      <button class="btn btn-text">Learn more</button>
+      <button class="btn btn-text"><span class="material-symbols-rounded">chevron_left</span>Back</button>
+      <button class="btn btn-text">Skip this step</button>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="cell-label">Secondary (crimson) — reserved uses</div>
+    <div class="cell">
+      <button class="btn btn-sec">Start training</button>
+      <button class="btn btn-sec btn-sm">Delete account</button>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="cell-label">Icon buttons (rounded, ripple)</div>
+    <div class="cell">
+      <button style="width:40px; height:40px; border-radius:9999px; border:none; background:transparent; cursor:pointer; display:grid; place-items:center"><span class="material-symbols-rounded" style="font-size:24px; color:var(--fg-secondary); font-variation-settings: 'FILL' 1">menu</span></button>
+      <button style="width:40px; height:40px; border-radius:9999px; border:none; background:transparent; cursor:pointer; display:grid; place-items:center"><span class="material-symbols-rounded" style="font-size:24px; color:var(--fg-secondary); font-variation-settings: 'FILL' 1">bookmark_border</span></button>
+      <button style="width:40px; height:40px; border-radius:9999px; border:none; background:transparent; cursor:pointer; display:grid; place-items:center"><span class="material-symbols-rounded" style="font-size:24px; color:var(--fg-secondary); font-variation-settings: 'FILL' 1">share</span></button>
+      <button style="width:40px; height:40px; border-radius:9999px; border:none; background:rgba(25,118,210,0.08); cursor:pointer; display:grid; place-items:center"><span class="material-symbols-rounded" style="font-size:24px; color:#1976d2; font-variation-settings: 'FILL' 1">rocket_launch</span></button>
+    </div>
+  </div>
+</div>
+</body></html>

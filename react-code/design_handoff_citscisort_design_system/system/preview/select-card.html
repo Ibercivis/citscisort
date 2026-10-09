@@ -1,0 +1,61 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Select card</title>
+<link rel="stylesheet" href="_card.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0">
+<style>
+  .sc { display:flex; gap:14px; padding:16px; border-radius:8px; background:#fff; border:1px solid var(--divider); cursor:pointer; transition:all 0.15s ease; align-items:flex-start }
+  .sc .ic { flex:0 0 auto; display:grid; place-items:center; width:44px; height:44px; border-radius:8px; background:var(--bg-subtle) }
+  .sc .material-symbols-rounded { font-size:24px; color:var(--fg-secondary); font-variation-settings: 'FILL' 1 }
+  .sc .title { font:700 15px/1.4 'Roboto', sans-serif; color:var(--fg-primary) }
+  .sc .desc { font:400 13px/1.5 'Roboto', sans-serif; color:var(--fg-secondary); margin-top:2px }
+  .sc-rest:hover { border-color:rgba(0,0,0,0.26); background:rgba(0,0,0,0.03) }
+  .sc-selected { border:2px solid #1976d2; background:rgba(25,118,210,0.08); padding:15px }
+  .sc-selected .ic { background:#1976d2 }
+  .sc-selected .material-symbols-rounded { color:#fff }
+  .sc-selected .title { color:#1976d2 }
+  .check { margin-left:auto; width:22px; height:22px; border-radius:9999px; background:#1976d2; color:#fff; display:grid; place-items:center; font:500 13px/1 'Roboto', sans-serif; flex:0 0 auto }
+  .cell-label { font:500 13px/1.4 'Roboto', sans-serif; color:var(--fg-secondary); margin:20px 0 10px; text-transform:uppercase; letter-spacing:0.5px }
+</style>
+</head><body>
+<div class="card">
+  <p class="card-title">Components</p>
+  <h2 class="card-heading">Select card — the classification primitive</h2>
+
+  <p style="font:400 14px/1.6 'Roboto', sans-serif; color:var(--fg-secondary); max-width:720px; margin-bottom:8px">
+    The single most distinctive component in the app. States: rest → hover → selected → selected hover. Border jumps from <code>1px divider</code> to <code>2px primary</code>; background shifts to an 8% alpha fill; a circular ✓ badge appears in the top-right.
+  </p>
+
+  <div class="cell-label">Rest</div>
+  <div style="display:grid; gap:10px; max-width:680px">
+    <div class="sc sc-rest">
+      <div class="ic"><span class="material-symbols-rounded">biotech</span></div>
+      <div><div class="title">Scientific Findings</div><div class="desc">The paper reports original research results produced with citizen-science data.</div></div>
+    </div>
+    <div class="sc sc-rest">
+      <div class="ic"><span class="material-symbols-rounded">psychology</span></div>
+      <div><div class="title">Meta-research</div><div class="desc">The paper studies the citizen-science process itself — methods, engagement, ethics.</div></div>
+    </div>
+    <div class="sc sc-rest">
+      <div class="ic"><span class="material-symbols-rounded">help_outline</span></div>
+      <div><div class="title">Not Sure</div><div class="desc">Can't decide from the abstract alone — flag for a second reviewer.</div></div>
+    </div>
+  </div>
+
+  <div class="cell-label">Selected (+ checkmark)</div>
+  <div style="display:grid; gap:10px; max-width:680px">
+    <div class="sc sc-selected">
+      <div class="ic"><span class="material-symbols-rounded">psychology</span></div>
+      <div><div class="title">Meta-research</div><div class="desc" style="color:#1976d2">The paper studies the citizen-science process itself — methods, engagement, ethics.</div></div>
+      <div class="check">✓</div>
+    </div>
+  </div>
+
+  <div class="cell-label">Grid — step 2 aspect picker (multi-select)</div>
+  <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; max-width:760px">
+    <div class="sc sc-selected"><div class="ic"><span class="material-symbols-rounded">account_tree</span></div><div><div class="title">Methodology & Design</div></div><div class="check">✓</div></div>
+    <div class="sc sc-selected"><div class="ic"><span class="material-symbols-rounded">fact_check</span></div><div><div class="title">Data Quality & Validation</div></div><div class="check">✓</div></div>
+    <div class="sc sc-rest"><div class="ic"><span class="material-symbols-rounded">trending_up</span></div><div><div class="title">Impact & Outcomes</div></div></div>
+    <div class="sc sc-rest"><div class="ic"><span class="material-symbols-rounded">groups</span></div><div><div class="title">Participation & Engagement</div></div></div>
+  </div>
+</div>
+</body></html>

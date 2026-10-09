@@ -1,0 +1,2 @@
+export const CURRENT_TERMS_VERSION = '04-26';
+export const CURRENT_PRIVACY_VERSION = '04-26';

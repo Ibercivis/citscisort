@@ -1,0 +1,43 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Secondary palette</title>
+<link rel="stylesheet" href="_card.css">
+</head><body>
+<div class="card">
+  <p class="card-title">Colors</p>
+  <h2 class="card-heading">Secondary — MUI crimson (used sparingly)</h2>
+
+  <div class="card-section">
+    <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:8px">
+      <div class="swatch"><div class="swatch-bar" style="background:#fce4ec"></div><div class="swatch-meta"><span class="name">50</span><span class="hex">#fce4ec</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#f8bbd0"></div><div class="swatch-meta"><span class="name">100</span><span class="hex">#f8bbd0</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#f06292"></div><div class="swatch-meta"><span class="name">300</span><span class="hex">#f06292</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#ec407a"></div><div class="swatch-meta"><span class="name">400</span><span class="hex">#ec407a</span></div></div>
+      <div class="swatch" style="box-shadow:0 0 0 2px #dc004e"><div class="swatch-bar" style="background:#dc004e"></div><div class="swatch-meta"><span class="name">500 <span style="color:var(--fg-secondary); font-weight:400">·main</span></span><span class="hex">#dc004e</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#c2185b"></div><div class="swatch-meta"><span class="name">700 <span style="color:var(--fg-secondary); font-weight:400">·dark</span></span><span class="hex">#c2185b</span></div></div>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <p class="card-title" style="margin-bottom:12px">Where it's used — the short list</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+
+      <div style="border-left:4px solid #dc004e; background:rgba(220,0,78,0.04); padding:14px 16px; border-radius:0 8px 8px 0">
+        <div style="font:700 13px/1.4 var(--font-sans); color:#c2185b; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px">RRI · second canon</div>
+        <div style="font:400 13px/1.5 var(--font-sans); color:var(--fg-primary)">About-page canon block, left-border accent. This is the one place the <em>left-border accent</em> pattern appears.</div>
+      </div>
+
+      <div style="border:1px solid var(--divider); border-radius:8px; padding:14px; display:flex; align-items:center; gap:12px">
+        <span style="background:#dc004e; color:#fff; font:500 12px/1 var(--font-sans); padding:4px 10px; border-radius:9999px; letter-spacing:0.3px">TRAINING</span>
+        <span style="font:400 13px/1.5 var(--font-sans); color:var(--fg-secondary)">Training-mode chip</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card-section">
+    <p style="font: 400 13px/1.6 var(--font-sans); color:var(--fg-secondary); background:var(--bg-muted); padding:12px 14px; border-radius:6px; margin:0">
+      <strong style="color:var(--fg-primary)">Note.</strong> Secondary is an accent, not a primary surface color. Don't use it for navigation, default CTAs, or card fills — those belong to primary (blue 700).
+    </p>
+  </div>
+</div>
+</body></html>

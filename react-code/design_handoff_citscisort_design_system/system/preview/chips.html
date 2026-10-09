@@ -1,0 +1,59 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Chips</title>
+<link rel="stylesheet" href="_card.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0">
+<style>
+  .chip { display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 12px; border-radius:16px; font:500 13px/1 'Roboto', sans-serif; border:1px solid transparent }
+  .chip .material-symbols-rounded { font-size:18px; font-variation-settings: 'FILL' 1 }
+  .chip-outline { background:#fff; color:var(--fg-primary); border-color:rgba(0,0,0,0.23) }
+  .chip-primary { background:rgba(25,118,210,0.08); color:#1976d2; border-color:rgba(25,118,210,0.5) }
+  .chip-primary-filled { background:#1976d2; color:#fff }
+  .chip-success { background:rgba(46,125,50,0.08); color:#2e7d32; border-color:rgba(46,125,50,0.5) }
+  .chip-warning { background:rgba(237,108,2,0.08); color:#ed6c02; border-color:rgba(237,108,2,0.5) }
+  .chip-sec { background:#dc004e; color:#fff; font-size:11px; letter-spacing:0.3px; text-transform:uppercase; padding:0 10px }
+  .chip-sm { height:24px; font-size:12px; padding:0 10px }
+  .cell { border:1px solid var(--divider); border-radius:8px; padding:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+  .cell-label { font:500 13px/1.4 'Roboto', sans-serif; color:var(--fg-secondary); margin-bottom:10px }
+</style>
+</head><body>
+<div class="card">
+  <p class="card-title">Components</p>
+  <h2 class="card-heading">Chips</h2>
+
+  <div class="card-section">
+    <div class="cell-label">Default — keyword / tag</div>
+    <div class="cell">
+      <span class="chip chip-outline">biodiversity</span>
+      <span class="chip chip-outline">urban ecology</span>
+      <span class="chip chip-outline">data validation</span>
+      <span class="chip chip-outline chip-sm">+ 12 more</span>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="cell-label">Primary (selected / active filter)</div>
+    <div class="cell">
+      <span class="chip chip-primary"><span class="material-symbols-rounded">check</span>Scientific Findings</span>
+      <span class="chip chip-primary">Methodology & Design</span>
+      <span class="chip chip-primary-filled">Impact & Outcomes</span>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="cell-label">Status</div>
+    <div class="cell">
+      <span class="chip chip-success"><span class="material-symbols-rounded">check_circle</span>Submitted</span>
+      <span class="chip chip-warning"><span class="material-symbols-rounded">schedule</span>In review</span>
+      <span class="chip chip-sec">TRAINING</span>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <div class="cell-label">Removable</div>
+    <div class="cell">
+      <span class="chip chip-outline">citizen science<span class="material-symbols-rounded" style="font-size:16px; color:var(--fg-secondary); cursor:pointer; margin-left:2px">cancel</span></span>
+      <span class="chip chip-outline">participatory mapping<span class="material-symbols-rounded" style="font-size:16px; color:var(--fg-secondary); cursor:pointer; margin-left:2px">cancel</span></span>
+    </div>
+  </div>
+</div>
+</body></html>

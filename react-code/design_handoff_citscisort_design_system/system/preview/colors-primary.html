@@ -1,0 +1,50 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Primary palette</title>
+<link rel="stylesheet" href="_card.css">
+</head><body>
+<div class="card">
+  <p class="card-title">Colors</p>
+  <h2 class="card-heading">Primary — MUI blue 700</h2>
+
+  <div class="card-section">
+    <div style="display:grid; grid-template-columns:repeat(10, 1fr); gap:8px">
+      <!-- 50..900 ramp -->
+      <div class="swatch"><div class="swatch-bar" style="background:#e3f2fd"></div><div class="swatch-meta"><span class="name">50</span><span class="hex">#e3f2fd</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#bbdefb"></div><div class="swatch-meta"><span class="name">100</span><span class="hex">#bbdefb</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#90caf9"></div><div class="swatch-meta"><span class="name">200</span><span class="hex">#90caf9</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#64b5f6"></div><div class="swatch-meta"><span class="name">300</span><span class="hex">#64b5f6</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#42a5f5"></div><div class="swatch-meta"><span class="name">400 <span style="color:var(--fg-secondary); font-weight:400">·light</span></span><span class="hex">#42a5f5</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#2196f3"></div><div class="swatch-meta"><span class="name">500</span><span class="hex">#2196f3</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#1e88e5"></div><div class="swatch-meta"><span class="name">600</span><span class="hex">#1e88e5</span></div></div>
+      <div class="swatch" style="box-shadow:0 0 0 2px #1976d2"><div class="swatch-bar" style="background:#1976d2"></div><div class="swatch-meta"><span class="name">700 <span style="color:var(--fg-secondary); font-weight:400">·main</span></span><span class="hex">#1976d2</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#1565c0"></div><div class="swatch-meta"><span class="name">800 <span style="color:var(--fg-secondary); font-weight:400">·dark</span></span><span class="hex">#1565c0</span></div></div>
+      <div class="swatch"><div class="swatch-bar" style="background:#0d47a1"></div><div class="swatch-meta"><span class="name">900</span><span class="hex">#0d47a1</span></div></div>
+    </div>
+  </div>
+
+  <div class="card-section">
+    <p class="card-title" style="margin-bottom:12px">Where it's used</p>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px">
+
+      <div style="border:1px solid var(--divider); border-radius:8px; padding:16px">
+        <div style="font: 500 13px/1.5 var(--font-sans); color:var(--fg-secondary); margin-bottom:8px">Primary button</div>
+        <button style="background:#1976d2; color:#fff; border:none; border-radius:4px; padding:6px 16px; font:500 14px/1.75 var(--font-sans); letter-spacing:0.4px; text-transform:uppercase; cursor:pointer; box-shadow:var(--shadow-2)">Sign in</button>
+      </div>
+
+      <div style="border:1px solid var(--divider); border-radius:8px; padding:16px">
+        <div style="font: 500 13px/1.5 var(--font-sans); color:var(--fg-secondary); margin-bottom:8px">Selected card</div>
+        <div style="border:2px solid #1976d2; background:rgba(25,118,210,0.08); border-radius:8px; padding:10px 14px">
+          <div style="font:700 14px/1.4 var(--font-sans); color:#1976d2">Scientific Findings</div>
+          <div style="font:400 12px/1.5 var(--font-sans); color:var(--fg-secondary)">Selected — border + alpha fill</div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--divider); border-radius:8px; padding:16px">
+        <div style="font: 500 13px/1.5 var(--font-sans); color:var(--fg-secondary); margin-bottom:8px">Welcome tile gradient</div>
+        <div style="background:linear-gradient(150deg, #1976d2 0%, #1565c0 100%); color:#fff; border-radius:8px; padding:12px 14px; font:700 14px/1.4 var(--font-sans); box-shadow:var(--shadow-2)">Welcome back, María</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body></html>

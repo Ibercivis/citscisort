@@ -1,0 +1,72 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Text fields</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .field { position:relative; background:#fff }
+  .field-outlined { border:1px solid rgba(0,0,0,0.23); border-radius:4px; padding:16.5px 14px; font:400 16px/1.4375 'Roboto', sans-serif; width:100%; box-sizing:border-box; outline:none }
+  .field-outlined:focus { border-color:#1976d2; box-shadow:inset 0 0 0 1px #1976d2 }
+  .field-wrap { position:relative; margin-top:8px }
+  .field-label { position:absolute; top:-9px; left:10px; background:#fff; padding:0 4px; font:400 12px/1 'Roboto', sans-serif; color:var(--fg-secondary); letter-spacing:0.15px; transition:color 0.15s }
+  .field-label.focused { color:#1976d2 }
+  .field-label.error { color:#d32f2f }
+  .field-helper { font:400 12px/1.66 'Roboto', sans-serif; color:var(--fg-secondary); margin:4px 14px 0 }
+  .field-helper.error { color:#d32f2f }
+  .row-set { margin-bottom:28px; max-width:540px }
+  .row-title { font:500 13px/1.4 'Roboto', sans-serif; color:var(--fg-secondary); margin-bottom:6px }
+</style>
+</head><body>
+<div class="card">
+  <p class="card-title">Components</p>
+  <h2 class="card-heading">Text fields — outlined variant</h2>
+
+  <div class="row-set">
+    <div class="row-title">Default (rest)</div>
+    <div class="field-wrap field">
+      <label class="field-label">Email</label>
+      <input class="field-outlined" value="" placeholder="">
+    </div>
+    <div class="field-helper">We'll never share this with anyone.</div>
+  </div>
+
+  <div class="row-set">
+    <div class="row-title">Filled</div>
+    <div class="field-wrap field">
+      <label class="field-label">Full name</label>
+      <input class="field-outlined" value="María Torres">
+    </div>
+  </div>
+
+  <div class="row-set">
+    <div class="row-title">Focused</div>
+    <div class="field-wrap field">
+      <label class="field-label focused">Research area</label>
+      <input class="field-outlined" value="Biodiversity monitoring" style="border-color:#1976d2; box-shadow:inset 0 0 0 1px #1976d2">
+    </div>
+  </div>
+
+  <div class="row-set">
+    <div class="row-title">Error</div>
+    <div class="field-wrap field">
+      <label class="field-label error">Password</label>
+      <input class="field-outlined" value="••••" style="border-color:#d32f2f; box-shadow:inset 0 0 0 1px #d32f2f">
+    </div>
+    <div class="field-helper error">Must be at least 8 characters.</div>
+  </div>
+
+  <div class="row-set">
+    <div class="row-title">Disabled</div>
+    <div class="field-wrap field">
+      <label class="field-label" style="color:rgba(0,0,0,0.38)">Institution</label>
+      <input class="field-outlined" value="Ibercivis Foundation" disabled style="color:rgba(0,0,0,0.38); background:transparent">
+    </div>
+  </div>
+
+  <div class="row-set">
+    <div class="row-title">Multiline (abstract paste)</div>
+    <div class="field-wrap field">
+      <label class="field-label">Paste abstract</label>
+      <textarea class="field-outlined" rows="4" placeholder="Abstract text…"></textarea>
+    </div>
+  </div>
+</div>
+</body></html>

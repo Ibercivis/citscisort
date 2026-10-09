@@ -1,0 +1,67 @@
+{% extends "emails/base_email.html" %}
+
+{% block title %}{{ milestone }} classifications!{% endblock %}
+
+{% block content %}
+<h2>Hello{% if first_name %} {{ first_name }}{% endif %}!</h2>
+
+<p>
+    You have now classified <strong>{{ user_classifications }} abstract{{ user_classifications|pluralize }}</strong>
+    on <strong>CitSciSort</strong>, passing the <strong>{{ milestone }}</strong> mark. Thank you.
+</p>
+
+<div class="info-box">
+    <h3 style="margin-top: 0; color: #2563eb;">What that means</h3>
+    <p style="margin: 0; color: #555;">
+        {% if milestone >= 250 %}
+        You are one of the backbone contributors of this project. Few people get this far, and every one of your
+        classifications is a data point in the first map of the citizen science literature.
+        {% elif milestone >= 100 %}
+        A hundred-plus abstracts read and sorted with care. That is a serious contribution to a research dataset.
+        {% elif milestone >= 50 %}
+        Fifty abstracts is real territory: you have seen enough of the literature to spot the patterns yourself.
+        {% elif milestone >= 25 %}
+        Twenty-five abstracts in. You are now well past the point where most people stop.
+        {% else %}
+        Ten abstracts done. You know how this works now, and every next one is faster.
+        {% endif %}
+    </p>
+</div>
+
+<div class="info-box">
+    <h3 style="margin-top: 0; color: #2563eb;">Where the community is</h3>
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2563eb; width: 90px;">{{ total_classifications }}</td>
+            <td style="padding: 6px 0; color: #555;">classifications completed</td>
+        </tr>
+        <tr>
+            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2563eb;">{{ active_users }}</td>
+            <td style="padding: 6px 0; color: #555;">people contributing</td>
+        </tr>
+        <tr>
+            <td style="padding: 6px 0; font-size: 22px; font-weight: 700; color: #2563eb;">{{ total_abstracts }}</td>
+            <td style="padding: 6px 0; color: #555;">abstracts still waiting to be sorted</td>
+        </tr>
+    </table>
+</div>
+
+<div style="text-align: center;">
+    <a href="{{ frontend_url }}/classify" class="button">Keep going</a>
+</div>
+
+{% if challenges_url %}
+<p style="text-align: center; color: #666; font-size: 14px;">
+    Want a focused goal? <a href="{{ challenges_url }}" style="color: #2563eb;">Pick a challenge</a>.
+</p>
+{% endif %}
+
+<p>Thank you for being part of this.</p>
+<p>The CitSciSort team</p>
+
+<p style="color: #888; font-size: 12px; margin-top: 30px;">
+    You received this email because you have an account on {{ site_name }}.
+    <a href="{{ unsubscribe_url }}" style="color: #888;">Stop receiving reminder and milestone emails</a>
+    or <a href="{{ frontend_url }}/account" style="color: #888;">change your preferences</a>.
+</p>
+{% endblock %}

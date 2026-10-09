@@ -1,0 +1,40 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Radii</title>
+<link rel="stylesheet" href="_card.css">
+</head><body>
+<div class="card">
+  <p class="card-title">Spacing</p>
+  <h2 class="card-heading">Corner radii</h2>
+
+  <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; max-width:900px">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:12px">
+      <div style="width:120px; height:120px; background:var(--primary-100); border:1px solid var(--primary-300); border-radius:4px"></div>
+      <div style="text-align:center">
+        <div style="font:500 14px/1.4 'Roboto', sans-serif">4px — borderRadius 1</div>
+        <div class="label-mono">buttons, chips, inputs</div>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:12px">
+      <div style="width:120px; height:120px; background:var(--primary-100); border:1px solid var(--primary-300); border-radius:8px"></div>
+      <div style="text-align:center">
+        <div style="font:500 14px/1.4 'Roboto', sans-serif">8px — borderRadius 2</div>
+        <div class="label-mono">cards, papers, tiles</div>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:12px">
+      <div style="width:120px; height:120px; background:var(--primary-100); border:1px solid var(--primary-300); border-radius:16px"></div>
+      <div style="text-align:center">
+        <div style="font:500 14px/1.4 'Roboto', sans-serif">16px — borderRadius 4</div>
+        <div class="label-mono">rare — modal corners</div>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:12px">
+      <div style="width:120px; height:120px; background:var(--primary-100); border:1px solid var(--primary-300); border-radius:9999px"></div>
+      <div style="text-align:center">
+        <div style="font:500 14px/1.4 'Roboto', sans-serif">Pill — 9999px</div>
+        <div class="label-mono">avatars, step circles</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

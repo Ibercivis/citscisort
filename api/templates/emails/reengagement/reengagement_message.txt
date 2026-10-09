@@ -1,0 +1,27 @@
+Hello{% if first_name %} {{ first_name }}{% endif %}!
+
+{% if user_classifications %}Thank you for the {{ user_classifications }} abstract{{ user_classifications|pluralize }} you have already classified on CitSciSort. Your contribution is part of the work of a growing community.{% else %}You signed up for CitSciSort a while ago but have not classified any abstract yet. We would love to have you on board.{% endif %}
+
+Where we are right now:
+- {{ total_classifications }} classifications completed
+- {{ active_users }} people contributing
+- {{ total_abstracts }} scientific abstracts waiting to be sorted
+
+What is CitSciSort? We are reading the scientific literature about citizen science and sorting it: is each paper reporting scientific findings, or is it research *about* citizen science itself (its methods, participants, data quality, impact...)? Every classification you make helps build the first map of this field.
+
+Each abstract takes about two minutes. You can do one or twenty, whenever you want.
+
+Start classifying:
+{{ frontend_url }}/classify
+
+{% if challenges_url %}Prefer a goal? Join one of the open challenges:
+{{ challenges_url }}
+{% endif %}
+Thank you for being part of this.
+
+The CitSciSort team
+
+--
+You received this email because you have an account on {{ site_name }}.
+Stop receiving reminder and milestone emails: {{ unsubscribe_url }}
+Change your preferences: {{ frontend_url }}/account

@@ -1,0 +1,56 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Alpha overlays</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .checker {
+    background-image:
+      linear-gradient(45deg, #eee 25%, transparent 25%),
+      linear-gradient(-45deg, #eee 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #eee 75%),
+      linear-gradient(-45deg, transparent 75%, #eee 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  }
+</style>
+</head><body>
+<div class="card">
+  <p class="card-title">Colors</p>
+  <h2 class="card-heading">Alpha overlays — the interaction vocabulary</h2>
+
+  <div class="card-section">
+    <p style="font: 400 14px/1.6 var(--font-sans); color:var(--fg-secondary); max-width:700px">
+      Hover, selected, and focus states are painted with alpha on the primary or a neutral black.
+      Never use a solid tint — the transparency lets the surface underneath show through consistently across contexts.
+    </p>
+  </div>
+
+  <div class="card-section">
+    <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:14px">
+
+      <div style="border:1px solid var(--divider); border-radius:8px; padding:18px">
+        <div class="card-title" style="margin-bottom:12px">Generic hover</div>
+        <div class="checker" style="border-radius:6px; padding:12px"><div style="background:rgba(0,0,0,0.04); border-radius:4px; padding:10px; font:400 13px/1.5 var(--font-sans)">rgba(0, 0, 0, 0.04)</div></div>
+        <div class="label-mono" style="margin-top:10px">Used on: Table rows, menu items, list items</div>
+      </div>
+
+      <div style="border:1px solid var(--divider); border-radius:8px; padding:18px">
+        <div class="card-title" style="margin-bottom:12px">Card hover (darker)</div>
+        <div class="checker" style="border-radius:6px; padding:12px"><div style="background:rgba(0,0,0,0.03); border:1px solid rgba(0,0,0,0.26); border-radius:4px; padding:10px; font:400 13px/1.5 var(--font-sans)">rgba(0, 0, 0, 0.03) + text.disabled border</div></div>
+        <div class="label-mono" style="margin-top:10px">Used on: Classification option cards (unselected hover)</div>
+      </div>
+
+      <div style="border:1px solid var(--divider); border-radius:8px; padding:18px">
+        <div class="card-title" style="margin-bottom:12px">Selected fill</div>
+        <div style="border:2px solid #1976d2; background:rgba(25,118,210,0.08); border-radius:6px; padding:10px; font:500 13px/1.5 var(--font-sans); color:#1976d2">rgba(25, 118, 210, 0.08)</div>
+        <div class="label-mono" style="margin-top:10px">Used on: Selected classification card, navigation active item</div>
+      </div>
+
+      <div style="border:1px solid var(--divider); border-radius:8px; padding:18px">
+        <div class="card-title" style="margin-bottom:12px">Selected hover</div>
+        <div style="border:2px solid #1976d2; background:rgba(25,118,210,0.13); border-radius:6px; padding:10px; font:500 13px/1.5 var(--font-sans); color:#1976d2">rgba(25, 118, 210, 0.13)</div>
+        <div class="label-mono" style="margin-top:10px">Used on: hover-over-selected card</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>
