@@ -19,6 +19,7 @@ import {
   Tab,
 } from '@mui/material';
 import SideMenu from '../components/dashboard/SideMenu';
+import { APP_VERSION, APP_COMMIT, APP_BUILD_DATE } from '../config/version';
 
 const TABS = ['about', 'faq', 'terms', 'privacy'];
 
@@ -68,6 +69,9 @@ const PageFooter = ({ isAuthenticated }) => (
         <Link component={RouterLink} to="/login" underline="hover" variant="body2" color="primary">Sign in / Register</Link>
       )}
     </Box>
+    <Typography variant="caption" color="text.disabled" sx={{ display: 'block', textAlign: 'center', pb: 4 }}>
+      CitSciSort {APP_VERSION}{APP_COMMIT ? ` · build ${APP_COMMIT}` : ''}{APP_BUILD_DATE ? ` · ${APP_BUILD_DATE}` : ''}
+    </Typography>
   </>
 );
 

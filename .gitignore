@@ -18,3 +18,8 @@
 !.env.example
 ._*
 .DS_Store
+
+# Deploy staging / previous build (created by react-code/deploy.sh)
+/frontend.new/
+/frontend.prev/
+/frontend.swap/
