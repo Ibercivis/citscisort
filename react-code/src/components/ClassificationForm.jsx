@@ -28,6 +28,7 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import categoryService from '../services/categoryService';
 import abstractService from '../services/abstractService';
 import infrastructureService from '../services/infrastructureService';
@@ -861,12 +862,6 @@ const ClassificationForm = ({ abstractId, onSuccess, kamikazeMode = false }) => 
       {success && (
         <Alert severity="success" sx={{ mb: 2 }}>
           {success}
-          {submitted && activity && activity.today > 0 && (
-            <Typography variant="body2" sx={{ mt: 0.5 }}>
-              {activity.today} classified today
-              {activity.streak_days >= 2 && ` · ${activity.streak_days}-day streak`}
-            </Typography>
-          )}
         </Alert>
       )}
 
@@ -956,6 +951,46 @@ const ClassificationForm = ({ abstractId, onSuccess, kamikazeMode = false }) => 
       {/* Submit/Next Button */}
       {submitted && (
         <Box sx={{ mt: 4 }}>
+          {activity && activity.today > 0 && (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: { xs: 1, sm: 3 },
+                mb: 3,
+                py: 2,
+                px: 3,
+                border: 1,
+                borderColor: 'success.main',
+                borderRadius: 2,
+              }}
+            >
+              {activity.today === 1 ? (
+                <Typography variant="h5" fontWeight={700} color="success.main">
+                  First one today!
+                </Typography>
+              ) : (
+                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                  <Typography variant="h3" component="span" fontWeight={700} color="success.main" sx={{ lineHeight: 1 }}>
+                    {activity.today}
+                  </Typography>
+                  <Typography variant="body1" component="span" color="text.secondary">
+                    classified today
+                  </Typography>
+                </Box>
+              )}
+              {activity.streak_days >= 2 && (
+                <Chip
+                  icon={<LocalFireDepartmentIcon />}
+                  label={`${activity.streak_days}-day streak`}
+                  color="warning"
+                  variant="outlined"
+                />
+              )}
+            </Box>
+          )}
           <Button
             variant="contained"
             size="large"
