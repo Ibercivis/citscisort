@@ -63,6 +63,7 @@ const ClassificationForm = ({ abstractId, onSuccess, kamikazeMode = false }) => 
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [activity, setActivity] = useState(null);
   const [startTime] = useState(Date.now());
 
   // Step state
@@ -209,7 +210,8 @@ const ClassificationForm = ({ abstractId, onSuccess, kamikazeMode = false }) => 
         time_spent_seconds: timeSpentSeconds,
       };
 
-      await abstractService.submitClassification(classification);
+      const created = await abstractService.submitClassification(classification);
+      setActivity(created?.activity || null);
       setSuccess('Classification submitted successfully!');
       setSubmitted(true);
       
@@ -859,6 +861,12 @@ const ClassificationForm = ({ abstractId, onSuccess, kamikazeMode = false }) => 
       {success && (
         <Alert severity="success" sx={{ mb: 2 }}>
           {success}
+          {submitted && activity && activity.today > 0 && (
+            <Typography variant="body2" sx={{ mt: 0.5 }}>
+              {activity.today} classified today
+              {activity.streak_days >= 2 && ` · ${activity.streak_days}-day streak`}
+            </Typography>
+          )}
         </Alert>
       )}
 

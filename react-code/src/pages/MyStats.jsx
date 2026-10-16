@@ -141,6 +141,14 @@ const MyStats = () => {
         </Grid>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
+            icon={<TrendingUpIcon color="warning" />}
+            title="Day Streak"
+            value={`${stats.overview.streak_days} (best ${stats.overview.best_streak_days})`}
+            color="warning"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard
             icon={<TimerIcon color="info" />}
             title="Average Time"
             value={formatTime(stats.overview.average_time_seconds)}

@@ -203,6 +203,7 @@ const MainGrid = () => {
   const kpis = [
     { icon: <TrendingUpIcon sx={{ fontSize: 16 }} />, label: 'Total',   value: stats?.overview.total_classifications || 0,            color: theme.palette.primary.main },
     { icon: <CheckCircleIcon sx={{ fontSize: 16 }} />, label: 'Today',  value: stats?.overview.classifications_today || 0,            color: theme.palette.success.main },
+    { icon: <CheckCircleIcon sx={{ fontSize: 16 }} />, label: 'Streak', value: `${stats?.overview.streak_days || 0}d`,             color: theme.palette.warning.main },
     { icon: <TimerIcon sx={{ fontSize: 16 }} />,       label: 'Avg',    value: formatTime(stats?.overview.average_time_seconds),      color: theme.palette.info.main },
     { icon: <SpeedIcon sx={{ fontSize: 16 }} />,       label: 'Fastest',value: formatTime(stats?.overview.fastest_time_seconds),      color: theme.palette.secondary.main },
   ];
