@@ -35,6 +35,7 @@ from .serializers import (
     ChallengeSerializer, ChallengeParticipationSerializer,
 )
 from .permissions import IsOwnerOrReadOnly, IsGoldUserOrReadOnly, HasAcceptedLegal
+from .activity import activity_summary
 from apps.abstracts.models import Abstract
 
 
@@ -439,8 +440,10 @@ class ClassificationViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         
+        data = ClassificationSerializer(serializer.instance).data
+        data['activity'] = activity_summary(request.user)
         return Response(
-            ClassificationSerializer(serializer.instance).data,
+            data,
             status=status.HTTP_201_CREATED,
             headers=headers
         )
@@ -1378,13 +1381,12 @@ class MyStatsView(views.APIView):
         # Overview
         total_classifications = user_classifications.count()
         
-        today = timezone.now().date()
+        today = timezone.localdate()
         week_ago = today - timedelta(days=7)
         month_ago = today - timedelta(days=30)
         
-        classifications_today = user_classifications.filter(
-            created_at__date=today
-        ).count()
+        activity = activity_summary(user)
+        classifications_today = activity['today']
         classifications_this_week = user_classifications.filter(
             created_at__date__gte=week_ago
         ).count()
@@ -1409,6 +1411,8 @@ class MyStatsView(views.APIView):
         overview = {
             'total_classifications': total_classifications,
             'classifications_today': classifications_today,
+            'streak_days': activity['streak_days'],
+            'best_streak_days': activity['best_streak_days'],
             'classifications_this_week': classifications_this_week,
             'classifications_this_month': classifications_this_month,
             'average_time_seconds': round(time_stats['avg'] or 0, 1),
