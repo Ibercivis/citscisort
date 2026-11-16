@@ -26,6 +26,7 @@ import DebateDetail from './pages/DebateDetail';
 import AbstractDetail from './pages/AbstractDetail';
 import About from './pages/About';
 import HallOfFame from './pages/HallOfFame';
+import StaffActivity from './pages/StaffActivity';
 import ChallengeDetail from './pages/ChallengeDetail';
 import ProtectedRoute from './utils/ProtectedRoute';
 
@@ -193,6 +194,10 @@ function App() {
                     element={<ProtectedRoute><AbstractDetail /></ProtectedRoute>}
                   />
                   <Route path="/about" element={<About />} />
+                  <Route
+                    path="/staff/activity"
+                    element={<ProtectedRoute><StaffActivity /></ProtectedRoute>}
+                  />
                   <Route
                     path="/hall-of-fame"
                     element={<ProtectedRoute><HallOfFame /></ProtectedRoute>}

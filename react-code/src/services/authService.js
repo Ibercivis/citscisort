@@ -56,7 +56,7 @@ const authService = {
   },
 
   // Register
-  register: async (email, password1, password2, first_name = '', last_name = '') => {
+  register: async (email, password1, password2, first_name = '', last_name = '', prefs = {}) => {
     await ensureCsrfCookie();
     const data = {
       email,
@@ -67,6 +67,9 @@ const authService = {
     // Only include names if provided
     if (first_name) data.first_name = first_name;
     if (last_name) data.last_name = last_name;
+    // Email preferences chosen on the sign-up form
+    if (prefs.newsletter_opt_in !== undefined) data.newsletter_opt_in = prefs.newsletter_opt_in;
+    if (prefs.activity_emails_opt_in !== undefined) data.activity_emails_opt_in = prefs.activity_emails_opt_in;
     
     const response = await api.post('/api/auth/registration/', data);
     // Don't save token/user automatically - wait for email verification

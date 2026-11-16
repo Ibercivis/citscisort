@@ -1,0 +1,20 @@
+{% extends "emails/base_email.html" %}
+
+{% block title %}{{ subject }}{% endblock %}
+
+{% block footer_note %}Questions? Write to <a href="mailto:info@ibercivis.es" style="color:#2A7A62;">info@ibercivis.es</a>{% endblock %}
+
+{% block content %}
+<h2>Hello{% if first_name %} {{ first_name }}{% endif %}!</h2>
+
+{{ body_html|safe }}
+
+<p>The CitSciSort team</p>
+
+<p style="color: #888; font-size: 12px; margin-top: 30px;">
+    You received this email because you have an account on {{ site_name }}.
+    <a href="{{ unsubscribe_newsletter_url }}" style="color: #888;">Unsubscribe from the newsletter</a> ·
+    <a href="{{ unsubscribe_all_url }}" style="color: #888;">Unsubscribe from all our emails</a>
+    or <a href="{{ frontend_url }}/dashboard" style="color: #888;">change your preferences</a>.
+</p>
+{% endblock %}

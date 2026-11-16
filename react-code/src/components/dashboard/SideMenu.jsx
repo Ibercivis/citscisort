@@ -38,6 +38,7 @@ import {
   Menu as MenuIcon,
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
+  Insights as InsightsIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
 import { getUserDisplayName, getUserInitials } from '../../utils/userDisplay';
@@ -57,12 +58,16 @@ const menuItems = [
   { text: 'About', icon: <InfoIcon />, path: '/about' },
 ];
 
+const staffMenuItems = [
+  { text: 'Daily Activity', icon: <InsightsIcon />, path: '/staff/activity' },
+];
+
 const SideMenu = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, isStaff } = useAuth();
   const { mode, toggleColorMode } = useContext(ColorModeContext);
 
   // User menu
@@ -138,7 +143,7 @@ const SideMenu = () => {
 
     const navItems = (
       <List sx={{ p: 1, flex: 1 }}>
-        {menuItems.map((item) => (
+        {(isStaff ? [...menuItems, ...staffMenuItems] : menuItems).map((item) => (
           <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
             <Tooltip title={c ? item.text : ''} placement="right" arrow>
               <ListItemButton

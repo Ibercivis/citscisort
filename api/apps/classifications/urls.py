@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
 from .email_views import unsubscribe
+from .staff_views import DailyActivityView, StaffOverviewView
 from .views import (
     CategoryViewSet, UserProfileViewSet,
     ClassificationViewSet, ClassificationSessionViewSet,
@@ -33,6 +34,8 @@ urlpatterns = [
     path('stats/overview/', GeneralStatsView.as_view(), name='general-stats'),
     path('stats/abstracts/', AbstractStatsView.as_view(), name='abstract-stats'),
     path('stats/me/', MyStatsView.as_view(), name='my-stats'),
+    path('staff/daily-activity/', DailyActivityView.as_view(), name='staff-daily-activity'),
+    path('staff/overview/', StaffOverviewView.as_view(), name='staff-overview'),
     # One-click unsubscribe from engagement emails (signed token, no login)
     path('emails/unsubscribe/<str:token>/', unsubscribe, name='engagement-unsubscribe'),
 ]

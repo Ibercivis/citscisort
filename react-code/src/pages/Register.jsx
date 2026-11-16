@@ -28,6 +28,9 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  // Email preferences: newsletter needs an explicit tick; reminders are on by default and can be unticked.
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
+  const [activityEmailsOptIn, setActivityEmailsOptIn] = useState(true);
 
   // Redirect to dashboard if already authenticated
   useEffect(() => {
@@ -59,7 +62,10 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await register(formData.email, formData.password1, formData.password2);
+      await register(formData.email, formData.password1, formData.password2, '', '', {
+        newsletter_opt_in: newsletterOptIn,
+        activity_emails_opt_in: activityEmailsOptIn,
+      });
       navigate('/email-confirmation', { state: { email: formData.email } });
     } catch {
       // handled by global toast
@@ -203,6 +209,19 @@ const Register = () => {
                       <Link component={RouterLink} to="/about?tab=privacy" target="_blank" underline="hover">Privacy Policy</Link>
                     </Typography>
                   }
+                />
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, mt: 1.5 }}>
+                <Typography variant="caption" color="text.secondary">
+                  Email preferences (optional, you can change them any time in Account settings or with the unsubscribe link in every email)
+                </Typography>
+                <FormControlLabel
+                  control={<Checkbox size="small" checked={newsletterOptIn} onChange={e => setNewsletterOptIn(e.target.checked)} />}
+                  label={<Typography variant="body2">Send me the project newsletter</Typography>}
+                />
+                <FormControlLabel
+                  control={<Checkbox size="small" checked={activityEmailsOptIn} onChange={e => setActivityEmailsOptIn(e.target.checked)} />}
+                  label={<Typography variant="body2">Send me reminders and milestone messages about my own activity</Typography>}
                 />
               </Box>
               <Button

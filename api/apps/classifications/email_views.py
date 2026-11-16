@@ -25,25 +25,48 @@ def _page(title, body):
 <style>body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;max-width:560px;margin:60px auto;padding:0 20px;color:#333;line-height:1.6}}
 h1{{color:#2563eb;font-size:22px}} a{{color:#2563eb}}</style></head>
 <body><h1>{title}</h1><p>{body}</p>
-<p><a href="{frontend}/account">Manage your email preferences</a> · <a href="{frontend}">Back to {settings.SITE_NAME}</a></p>
+<p><a href="{frontend}/dashboard">Manage your email preferences</a> · <a href="{frontend}">Back to {settings.SITE_NAME}</a></p>
 </body></html>""")
+
+
+_DONE = {
+    'activity': ('reminder and milestone emails',
+                 'You will no longer receive reminder or milestone emails from us.'),
+    'newsletter': ('the newsletter', 'You will no longer receive the newsletter.'),
+    'all': ('all our optional emails',
+            'You will no longer receive reminders, milestone emails or the newsletter.'),
+}
 
 
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def unsubscribe(request, token):
+    """
+    ``?scope=activity`` (default) | ``newsletter`` | ``all``. One click, no login.
+    Account emails (verification, password reset, things people share with
+    them) are never affected.
+    """
+    scope = request.GET.get('scope', 'activity')
+    if scope not in _DONE:
+        return _page('Invalid link', 'This unsubscribe link is not valid.')
     try:
         user_id = read_unsubscribe_token(token)
     except signing.BadSignature:
         return _page('Invalid link', 'This unsubscribe link is not valid.')
 
-    updated = UserProfile.objects.filter(user_id=user_id, activity_emails_opt_in=True).update(
-        activity_emails_opt_in=False,
-        activity_emails_opt_out_at=timezone.now(),
-    )
-    if updated:
-        body = ('You will no longer receive reminder or milestone emails from us. '
-                'Account emails (password resets, things people share with you) are not affected.')
+    now = timezone.now()
+    profiles = UserProfile.objects.filter(user_id=user_id)
+    changed = 0
+    if scope in ('activity', 'all'):
+        changed += profiles.filter(activity_emails_opt_in=True).update(
+            activity_emails_opt_in=False, activity_emails_opt_out_at=now)
+    if scope in ('newsletter', 'all'):
+        changed += profiles.filter(newsletter_opt_in=True).update(
+            newsletter_opt_in=False, newsletter_opt_in_at=None)
+
+    label, done = _DONE[scope]
+    if changed:
+        body = f'{done} Account emails (password resets, things people share with you) are not affected.'
     else:
-        body = 'You were already unsubscribed from reminder and milestone emails.'
+        body = f'You were already unsubscribed from {label}.'
     return _page('Unsubscribed', body)

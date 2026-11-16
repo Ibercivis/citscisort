@@ -3,6 +3,7 @@ from rest_framework import serializers
 from dj_rest_auth.serializers import PasswordResetSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.conf import settings
+from django.utils import timezone
 from .forms import CustomPasswordResetForm
 
 
@@ -13,7 +14,13 @@ class CustomRegisterSerializer(RegisterSerializer):
     """
     # Remove username requirement
     username = None
-    
+
+    # Email preferences chosen on the sign-up form. The newsletter needs an
+    # explicit tick (default False); reminder/milestone emails are service
+    # messages about the person's own activity (default True, can be unticked).
+    newsletter_opt_in = serializers.BooleanField(required=False, default=False)
+    activity_emails_opt_in = serializers.BooleanField(required=False, default=True)
+
     def get_cleaned_data(self):
         """
         Return cleaned data without username
@@ -24,6 +31,20 @@ class CustomRegisterSerializer(RegisterSerializer):
             'password1': self.validated_data.get('password1', ''),
             'password2': self.validated_data.get('password2', ''),
         }
+
+    def save(self, request):
+        user = super().save(request)
+        from apps.classifications.models import UserProfile
+        profile, _ = UserProfile.objects.get_or_create(user=user)
+        now = timezone.now()
+        if self.validated_data.get('newsletter_opt_in', False):
+            profile.newsletter_opt_in = True
+            profile.newsletter_opt_in_at = now  # proof of consent
+        if not self.validated_data.get('activity_emails_opt_in', True):
+            profile.activity_emails_opt_in = False
+            profile.activity_emails_opt_out_at = now
+        profile.save()
+        return user
 
 
 class CustomPasswordResetSerializer(PasswordResetSerializer):

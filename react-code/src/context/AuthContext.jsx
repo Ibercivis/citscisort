@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import authService from '../services/authService';
 import googleAuthService from '../services/googleAuthService';
 import legalService from '../services/legalService';
+import api from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -10,12 +11,23 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [legalStatus, setLegalStatus] = useState(null);
   const [legalLoading, setLegalLoading] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
+
+  // is_staff only gates UI links; the API enforces it. Not persisted in localStorage.
+  const refreshStaffFlag = async () => {
+    if (!localStorage.getItem('token')) return;
+    try {
+      const { data } = await api.get('/api/profiles/me/');
+      setIsStaff(!!data.is_staff);
+    } catch { /* link just stays hidden */ }
+  };
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     if (currentUser) {
       setUser(currentUser);
       checkLegalStatus();
+      refreshStaffFlag();
     }
     setLoading(false);
   }, []);
@@ -44,12 +56,13 @@ export const AuthProvider = ({ children }) => {
     if (data.user) {
       setUser(data.user);
       await checkLegalStatus();
+      refreshStaffFlag();
     }
     return data;
   };
 
-  const register = async (email, password1, password2, first_name = '', last_name = '') => {
-    const data = await authService.register(email, password1, password2, first_name, last_name);
+  const register = async (email, password1, password2, first_name = '', last_name = '', prefs = {}) => {
+    const data = await authService.register(email, password1, password2, first_name, last_name, prefs);
     return data;
   };
 
@@ -58,6 +71,7 @@ export const AuthProvider = ({ children }) => {
     if (data.user) {
       setUser(data.user);
       await checkLegalStatus();
+      refreshStaffFlag();
     }
     return data;
   };
@@ -66,6 +80,7 @@ export const AuthProvider = ({ children }) => {
     await authService.logout();
     setUser(null);
     setLegalStatus(null);
+    setIsStaff(false);
   };
 
   const value = {
@@ -75,6 +90,7 @@ export const AuthProvider = ({ children }) => {
     loginWithGoogle,
     logout,
     isAuthenticated: !!user,
+    isStaff,
     loading,
     legalStatus,
     legalLoading,

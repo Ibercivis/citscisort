@@ -777,7 +777,7 @@ const PrivacyTab = ({ isAuthenticated }) => (
       },
       {
         n: '2', title: 'Data We Collect',
-        body: 'We collect: (a) Account data: email address, display name, and password (hashed) when you register; (b) Google Sign-In data: if you use Google login, we receive your email address and public profile name from Google; (c) Activity data: your classifications, debate contributions, comments, and timestamps; (d) Technical data: IP address, browser type, and session information collected automatically when you use the Platform.',
+        body: 'We collect: (a) Account data: email address, display name, and password (hashed) when you register; (b) Google Sign-In data: if you use Google login, we receive your email address and public profile name from Google; (c) Activity data: your classifications, debate contributions, comments, and timestamps, as well as the days on which you use the Platform (one record per day, visible only to the administrators of the Platform, used to understand and improve participation); (d) Technical data: IP address, browser type, and session information collected automatically when you use the Platform.',
       },
       {
         n: '3', title: 'How We Use Your Data',

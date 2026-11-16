@@ -845,10 +845,12 @@ class EngagementEmail(models.Model):
     TYPE_MILESTONE = 'milestone'
     TYPE_REENGAGEMENT_NEVER = 'reengagement_never'
     TYPE_REENGAGEMENT_LAPSED = 'reengagement_lapsed'
+    TYPE_NEWSLETTER = 'newsletter'
     EMAIL_TYPES = [
         (TYPE_MILESTONE, 'Milestone reached'),
         (TYPE_REENGAGEMENT_NEVER, 'Re-engagement: never classified'),
         (TYPE_REENGAGEMENT_LAPSED, 'Re-engagement: stopped classifying'),
+        (TYPE_NEWSLETTER, 'Newsletter'),
     ]
 
     STATUS_SENT = 'sent'
@@ -1169,3 +1171,24 @@ class ChallengeParticipation(models.Model):
 
     def __str__(self):
         return f"{self.user.email} → {self.challenge.title}"
+
+
+class DailyActivity(models.Model):
+    """One row per user per calendar day (Europe/Madrid) on which the user made
+    at least one authenticated request. Written by ActivityTokenAuthentication;
+    shown to staff only. Lets us answer "who was here on day X" and measure
+    returns after emails. Deleted with the account (CASCADE)."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_activity')
+    date = models.DateField(db_index=True)
+    first_seen_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'date'], name='unique_daily_activity_user_date'),
+        ]
+        ordering = ['-date', 'first_seen_at']
+        verbose_name = 'Daily activity'
+        verbose_name_plural = 'Daily activity'
+
+    def __str__(self):
+        return f"{self.user_id} {self.date}"

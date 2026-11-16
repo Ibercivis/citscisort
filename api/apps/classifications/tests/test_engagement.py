@@ -284,3 +284,44 @@ class UnsubscribeViewTests(EngagementBase):
         self.assertEqual(resp.status_code, 200)
         self.assertIn(b'Invalid link', resp.content)
         self.assertEqual(EngagementEmail.objects.count(), 0)
+
+
+class UnsubscribeScopeTests(EngagementBase):
+    def setUp(self):
+        super().setUp()
+        self.u = self.make_user('a@x.org')
+        p = self.u.classification_profile
+        p.newsletter_opt_in = True
+        p.newsletter_opt_in_at = self.now
+        p.save()
+        self.url = reverse('engagement-unsubscribe',
+                           kwargs={'token': engagement.make_unsubscribe_token(self.u)})
+
+    def flags(self):
+        p = self.u.classification_profile
+        p.refresh_from_db()
+        return p.activity_emails_opt_in, p.newsletter_opt_in
+
+    def test_default_scope_leaves_newsletter_alone(self):
+        self.client.get(self.url)
+        self.assertEqual(self.flags(), (False, True))
+
+    def test_newsletter_scope_only_newsletter(self):
+        self.client.get(self.url + '?scope=newsletter')
+        self.assertEqual(self.flags(), (True, False))
+        self.assertIsNone(self.u.classification_profile.newsletter_opt_in_at)
+
+    def test_all_scope_drops_both_and_post_works(self):
+        resp = self.client.post(self.url + '?scope=all')
+        self.assertIn(b'Unsubscribed', resp.content)
+        self.assertEqual(self.flags(), (False, False))
+        self.assertIn(b'already unsubscribed', self.client.get(self.url + '?scope=all').content)
+
+    def test_bad_scope_changes_nothing(self):
+        resp = self.client.get(self.url + '?scope=evil')
+        self.assertIn(b'Invalid link', resp.content)
+        self.assertEqual(self.flags(), (True, True))
+
+    def test_emails_carry_the_all_link(self):
+        c = engagement.unsubscribe_url(self.u, 'all')
+        self.assertTrue(c.endswith('?scope=all'))

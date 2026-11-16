@@ -131,6 +131,7 @@ class ClassificationFlowCategorySerializer(serializers.ModelSerializer):
 class UserProfileSerializer(CountryFieldMixin, serializers.ModelSerializer):
     """Serializer for UserProfile model"""
     email = serializers.EmailField(source='user.email', read_only=True)
+    is_staff = serializers.BooleanField(source='user.is_staff', read_only=True)
     display_name = serializers.CharField(source='get_display_name', read_only=True)
     preferred_areas = CategoryListSerializer(many=True, read_only=True)
     country_name = serializers.SerializerMethodField()
@@ -139,7 +140,7 @@ class UserProfileSerializer(CountryFieldMixin, serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = [
-            'id', 'email', 'display_name', 'first_name', 'last_name', 'is_gold_user',
+            'id', 'email', 'is_staff', 'display_name', 'first_name', 'last_name', 'is_gold_user',
             'reliability_score', 'total_classifications', 'agreement_with_gold',
             'completed_training', 'training_score', 'training_attempts',
             'points', 'level', 'badges', 'preferred_areas',

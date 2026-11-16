@@ -81,9 +81,17 @@ def read_unsubscribe_token(token):
     return signing.loads(token, salt=UNSUBSCRIBE_SALT)['u']
 
 
-def unsubscribe_url(user):
+UNSUBSCRIBE_SCOPES = ('activity', 'newsletter', 'all')
+
+
+def unsubscribe_url(user, scope='activity'):
+    """One-click unsubscribe link. ``scope``: 'activity' (reminder/milestone
+    emails, the default and the only behaviour of links sent before scopes
+    existed), 'newsletter', or 'all' (every optional email)."""
+    assert scope in UNSUBSCRIBE_SCOPES, scope
     path = reverse('engagement-unsubscribe', kwargs={'token': make_unsubscribe_token(user)})
-    return f"{settings.API_PUBLIC_URL}{path}"
+    url = f"{settings.API_PUBLIC_URL}{path}"
+    return url if scope == 'activity' else f"{url}?scope={scope}"
 
 
 # --------------------------------------------------------------------------
@@ -302,6 +310,7 @@ def build_context(candidate, community=None, unsubscribe=None):
         'first_name': profile.first_name or user.first_name or '',
         'user_classifications': profile.total_classifications,
         'unsubscribe_url': unsubscribe or unsubscribe_url(user),
+        'unsubscribe_all_url': unsubscribe_url(user, 'all'),
     })
     return ctx
 

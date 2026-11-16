@@ -1,0 +1,12 @@
+Hello{% if first_name %} {{ first_name }}{% endif %}!
+
+{{ body_text }}
+
+The CitSciSort team
+
+Questions? Write to info@ibercivis.es
+
+You received this email because you have an account on {{ site_name }}.
+Unsubscribe from the newsletter: {{ unsubscribe_newsletter_url }}
+Unsubscribe from all our emails: {{ unsubscribe_all_url }}
+Change your preferences: {{ frontend_url }}/dashboard
